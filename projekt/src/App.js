@@ -48,7 +48,6 @@ function App() {
 
         {/*Navbar*/}
         <div className="navBar">
-
           {/*Recipes*/}
           <Link to ="/green" className="navButton">
             <div>
@@ -56,15 +55,13 @@ function App() {
             </div>
           </Link>
           {/*Quick Convert*/}
-
           <Link to ="/red" className="navButton">
             <div>
-              R
+             R
             </div>
           </Link>
-
           <Link to ="/blue" className="navButton">
-          {/*New recipes*/}
+           {/*New recipes*/}
             <div>
               B
             </div>
