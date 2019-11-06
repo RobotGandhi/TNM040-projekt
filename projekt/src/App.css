@@ -1,0 +1,37 @@
+.knapp{
+  background-color: #7289DA;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  color: white;
+  width: 170px;
+  height: 50px;
+  left: 163px;
+  top: 486px;
+  
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;    
+
+}
+.ingredientBox{
+
+
+width: 400px;
+height: 125px;
+left: 48px;
+top: 164px;
+
+background: #34495A;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.main{
+  margin: auto;
+  width: 50%;
+  border: 1px solid black;
+  padding: 10px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content: space-evenly;
+}
+#namnge{
+  width: 100%;
+}
