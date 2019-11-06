@@ -3,6 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 
+
+let selectedNav = "defualt";
+
 function Green(props) {
   return(
     <div className ="green">
@@ -27,7 +30,35 @@ function Blue(props) {
   );
 }
 
+function NavBar(props){
+  return(
+    /*Navbar*/
+    <div className="navBar">
+    {/*Recipes*/}
+    <Link to ="/green" className={} className="navButton" activeStyle={{ color: 'red' }}>
+      <div>
+        G
+      </div>
+    </Link>
+    {/*Quick Convert*/}
+    <Link to ="/red" className="navButton">
+      <div>
+       R
+      </div>
+    </Link>
+    <Link to ="/blue" className="navButton">
+     {/*New recipes*/}
+      <div>
+        B
+      </div>
+    </Link>
+  </div>
+
+  );
+}
+
 function App() {
+
   return (
     <Router>
       <div>
@@ -45,29 +76,8 @@ function App() {
             <div className ="content"></div>
           </Route>
         </Switch>
-
-        {/*Navbar*/}
-        <div className="navBar">
-          {/*Recipes*/}
-          <Link to ="/green" className="navButton">
-            <div>
-              G
-            </div>
-          </Link>
-          {/*Quick Convert*/}
-          <Link to ="/red" className="navButton">
-            <div>
-             R
-            </div>
-          </Link>
-          <Link to ="/blue" className="navButton">
-           {/*New recipes*/}
-            <div>
-              B
-            </div>
-          </Link>
         </div>
-      </div>  
+        <NavBar selection = {selectedNav}/>
     </Router>
   );
 }
