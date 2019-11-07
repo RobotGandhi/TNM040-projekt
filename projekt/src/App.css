@@ -31,3 +31,6 @@
   height: 89vh;
 }
 
+.isSelected {
+  background-color: black;
+}

@@ -1,10 +1,6 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
-
-
-let selectedNav = "defualt";
 
 function Green(props) {
   return(
@@ -31,30 +27,56 @@ function Blue(props) {
 }
 
 function NavBar(props){
+  //states for what navbar button is selected
+  const [selection1, setSelection1] = useState(false);
+  const [selection2, setSelection2] = useState(false);
+  const [selection3, setSelection3] = useState(false);
+
+  //state becomes true if nav bar button is clicked
+  const button1Selected = event => {
+    setSelection1(true);
+    setSelection2(false);
+    setSelection3(false);
+  }
+
+  const button2Selected = event => {
+    setSelection1(false);
+    setSelection2(true);
+    setSelection3(false);
+  }
+
+  const button3Selected = event => {
+    setSelection1(false);
+    setSelection2(false);
+    setSelection3(true);
+  }
+
   return(
     /*Navbar*/
     <div className="navBar">
-    {/*Recipes*/}
-    <Link to ="/green" className={} className="navButton" activeStyle={{ color: 'red' }}>
+    {/*Recipes,
+    Link is given the class selected if selection state is true(if button was clicked)*/}
+    <Link to ="/green" className={`navButton ${selection1 ? 'isSelected' : ''}`} onClick={button1Selected} >
       <div>
         G
       </div>
     </Link>
     {/*Quick Convert*/}
-    <Link to ="/red" className="navButton">
+    <Link to ="/red" className={`navButton ${selection2 ? 'isSelected' : ''}`} onClick={button2Selected}>
       <div>
        R
       </div>
     </Link>
-    <Link to ="/blue" className="navButton">
+    <Link to ="/blue" className={`navButton ${selection3 ? 'isSelected' : ''}`} onClick={button3Selected}>
      {/*New recipes*/}
       <div>
         B
       </div>
     </Link>
   </div>
-
+  
   );
+  
 }
 
 function App() {
@@ -77,7 +99,7 @@ function App() {
           </Route>
         </Switch>
         </div>
-        <NavBar selection = {selectedNav}/>
+        <NavBar/>
     </Router>
   );
 }
