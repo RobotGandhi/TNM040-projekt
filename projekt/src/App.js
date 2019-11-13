@@ -33,9 +33,12 @@ const QuickConvert = props => {
   function changeConvertToUnit(event) {
     setConvertToUnit(event.target.value);
   }
+  function changeConversionAmount(event) {
+    setConversionAmount(event.target.value);
+  }
   function doConvert(event) {
     setConversionAmount(event.target.value);
-    setConversionResult(convert(event.target.value).from(convertFromUnit).to(convertToUnit));
+    setConversionResult(convert(conversionAmount).from(convertFromUnit).to(convertToUnit));
   }
 
   return(
@@ -55,7 +58,7 @@ const QuickConvert = props => {
       </select>
 
       <div>
-        <input type="text" className="textInput" onChange={doConvert}></input>
+        <input type="text" className="textInput" onChange={changeConversionAmount}></input>
         {convertFrom === "US-Custom" &&
         <select className="selectFromUnit" onChange={changeConvertFromUnit}>
           <option value="oz">Ounces</option>
@@ -72,8 +75,11 @@ const QuickConvert = props => {
           <option value="g">Grams</option>
           <option value="kg">Kilograms</option>
           <option value="ml">Milliliters</option>
+          <option value="dl">Deciliters</option>
           <option value="l">Liters</option>
         </select>}
+
+        <button className="button" onClick={doConvert}>Convert!</button>
 
         <input type="text" className="textInput" value={conversionResult} disabled></input>
         {convertTo === "US-Custom" &&
@@ -92,6 +98,7 @@ const QuickConvert = props => {
           <option value="g">Grams</option>
           <option value="kg">Kilograms</option>
           <option value="ml">Milliliters</option>
+          <option value="dl">Deciliters</option>
           <option value="l">Liters</option>
         </select>}
       </div>
