@@ -36,9 +36,14 @@ const QuickConvert = props => {
   function changeConversionAmount(event) {
     setConversionAmount(event.target.value);
   }
-  function doConvert(event) {
-    setConversionAmount(event.target.value);
+  function doConvert() {
     setConversionResult(convert(conversionAmount).from(convertFromUnit).to(convertToUnit));
+  }
+  function doSwap() {
+    setConvertTo(convertFrom);
+    setConvertFrom(convertTo);
+    setConvertToUnit(convertFromUnit);
+    setConvertFromUnit(convertToUnit);
   }
 
   return(
@@ -46,13 +51,13 @@ const QuickConvert = props => {
       <h1 className="header">Quick Convert</h1>
 
       <h2>From</h2>
-      <select className="selectFrom" onChange={changeConvertFrom}>
+      <select value={convertFrom} className="selectFrom" onChange={changeConvertFrom}>
         <option value="US-Custom">US-Custom</option>
         <option value="Metric">Metric</option>
       </select>
 
       <h2>To</h2>
-      <select className="selectTo" onChange={changeConvertTo}>
+      <select value={convertTo} className="selectTo" onChange={changeConvertTo}>
         <option value="Metric">Metric</option>
         <option value="US-Custom">US-Custom</option>
       </select>
@@ -60,7 +65,7 @@ const QuickConvert = props => {
       <div>
         <input type="text" className="textInput" onChange={changeConversionAmount}></input>
         {convertFrom === "US-Custom" &&
-        <select className="selectFromUnit" onChange={changeConvertFromUnit}>
+        <select value={convertFromUnit} className="selectFromUnit" onChange={changeConvertFromUnit}>
           <option value="oz">Ounces</option>
           <option value="lb">Pounds</option>
           <option value="fl-oz">Fluid Ounces</option>
@@ -70,7 +75,7 @@ const QuickConvert = props => {
           <option value="gal">Gallons</option>
         </select>}
         {convertFrom === "Metric" &&
-        <select className="selectFromUnit" onChange={changeConvertFromUnit}>
+        <select value={convertFromUnit} className="selectFromUnit" onChange={changeConvertFromUnit}>
           <option value="mg">Milligrams</option>
           <option value="g">Grams</option>
           <option value="kg">Kilograms</option>
@@ -83,7 +88,7 @@ const QuickConvert = props => {
 
         <input type="text" className="textInput" value={conversionResult} disabled></input>
         {convertTo === "US-Custom" &&
-        <select className="selectFromUnit" onChange={changeConvertToUnit}>
+        <select value={convertToUnit} className="selectFromUnit" onChange={changeConvertToUnit}>
           <option value="oz">Ounces</option>
           <option value="lb">Pounds</option>
           <option value="fl-oz">Fluid Ounces</option>
@@ -93,7 +98,7 @@ const QuickConvert = props => {
           <option value="gal">Gallons</option>
         </select>}
         {convertTo === "Metric" &&
-        <select className="selectFromUnit" onChange={changeConvertToUnit}>
+        <select value={convertToUnit} className="selectFromUnit" onChange={changeConvertToUnit}>
           <option value="mg">Milligrams</option>
           <option value="g">Grams</option>
           <option value="kg">Kilograms</option>
@@ -102,6 +107,7 @@ const QuickConvert = props => {
           <option value="l">Liters</option>
         </select>}
       </div>
+      <button className="button" onClick={doSwap}>Convert!</button>
     </div>
   )
 };
