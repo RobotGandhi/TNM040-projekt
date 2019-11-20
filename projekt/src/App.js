@@ -100,14 +100,14 @@ function App() {
           <Route path="/green">
             <Green/>
           </Route>
-          <Route path="/">
-            <QuickConvert/>
-          </Route>
           <Route path="/stepone">
             <NewRecipeStep1/>
           </Route>
           <Route path="/steptwo">
             <NewRecipeStep1/>
+          </Route>
+          <Route path="/">
+            <QuickConvert/>
           </Route>
         </Switch>
         </div>
