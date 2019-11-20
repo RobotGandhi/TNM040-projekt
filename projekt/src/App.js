@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import './App.css';
 
 let a = null;
 let b = null;
-
+ 
 function App() {
 
 
@@ -13,7 +13,7 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-        
+          {/**/}
           <Route path="/steptwo"><NewRecipeStep2/> </Route>
           <Route path="/"><NewRecipeStep1/>
           </Route>
@@ -25,17 +25,32 @@ function App() {
   );
 }
 function NewRecipeStep2(){
-  
+  console.log("hejsansasan");
+  const [howManyIngredients, setHowManyIngredients ] = useState(1);
+
+  let ingredientsarray=[];/*
+  let temp= [];
+  ingredientsarray.push(" ");
+ 
+*/
+for( let i = 0; i < howManyIngredients; i++ ){
+
+ingredientsarray.push(" ");
+}
+let temp = ingredientsarray.map((x,idx) => <Ingredient key = {idx}/> );
+
+ 
+   
   return(
     <div className = "main">
       <Textfieldrecipe/>
-      <Ingredient/>
-      <Ingredient/>
-      <Ingredient/>
-      <Ingredient/>
+
+      {temp}
+      
+    
 
       <div className = "knapp"> Save </div>
-      <div className = "knapp"> Add </div>
+      <div onClick = {() => setHowManyIngredients(howManyIngredients + 1)} className = "knapp"> Add </div> 
     </div>
     );
 }
@@ -48,21 +63,27 @@ function NewRecipeStep1(){
 <Textfieldrecipe/>
 <p> From </p> <div className = "knapp"> System </div>
    <p> To </p> <div className = "knapp"> System </div>
-   <Link to="/steptwo"><div className = "knapp">   Create </div></Link>   </div>
+   <Link to="/steptwo" ><div className = "knapp">   Create </div></Link>   </div>
 
 </div>
     )
 }
 
 
+
 function Ingredient(){
+ 
   return(
+
+  
+            
     <div className="ingredientBox">
     <Textfieldingredient/>
     <div className = "knapp"> System </div>
     <div className = "knapp"> System </div>
     </div>
     )
+
 }
 
 
