@@ -53,6 +53,7 @@ function NavBar(props){
 
   return(
     /*Navbar*/
+    <header className="navHeader">
     <div className="navBar">
     {/*Recipes,
     Link is given the class selected if selection state is true(if button was clicked)*/}
@@ -74,6 +75,7 @@ function NavBar(props){
       </div>
     </Link>
   </div>
+  </header>
   
   );
   
@@ -159,23 +161,14 @@ const NewRecipeStep1 = () => {
 
 
 function Ingredient(){
- 
-  return(
-
-  
-            
+  return(       
     <div className="ingredientBox">
     <Textfieldingredient/>
     <div className = "knapp"> System </div>
     <div className = "knapp"> System </div>
     </div>
     )
-
 }
-
-
-
-
 function Textfieldingredient() {
 if(b == null){
     b = "Name of ingredient";
@@ -188,24 +181,15 @@ function Textfieldrecipe() {
 if(a == null){
     a = "Name of recipe";
 }
-
-
-
   return(
-    
    <input type="text" id="namnge" placeholder={a} onChange={changeInput} />
-   
- 
     )
 }
-
 function changeInput(event){
 a = event.target.value;
-
 }
 function changeInput2(event){
 b = event.target.value;
-
 }
 
 
@@ -246,7 +230,7 @@ const QuickConvert = props => {
   }
 
   return(
-    <div className="quickConvert">
+    <div className="green">
       <h1 className="header">Quick Convert</h1>
 
       <h2>From</h2>
