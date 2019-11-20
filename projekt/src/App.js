@@ -10,6 +10,22 @@ const Green = (props) => {
   );
 }
 
+/*function Red(props) {
+  return(
+    <div className ="red">
+    R
+    </div>
+  );
+}
+
+function Blue(props) {
+  return(
+    <div className ="blue">
+    B
+    </div>
+  );
+}*/
+
 function NavBar(props){
   //states for what navbar button is selected
   const [selection1, setSelection1] = useState(false);
@@ -37,6 +53,7 @@ function NavBar(props){
 
   return(
     /*Navbar*/
+    <header className="navHeader">
     <div className="navBar">
     {/*Recipes,
     Link is given the class selected if selection state is true(if button was clicked)*/}
@@ -58,6 +75,7 @@ function NavBar(props){
       </div>
     </Link>
   </div>
+  </header>
   
   );
   
@@ -67,6 +85,16 @@ let a = null;
 let b = null;
  
 function App() {
+
+	/*<div className="App">
+	    <Router>
+	        <Switch>
+	          	<Route path="/steptwo"><NewRecipeStep2/></Route>
+	          	<Route path="/stepone"><NewRecipeStep1/></Route>
+	      		<Route path="/"><QuickConvert/></Route>
+	        </Switch>
+	    </Router>
+    </div>*/
   return (
     <Router>
       <div>
@@ -130,8 +158,8 @@ const NewRecipeStep1 = () => {
   function changeConvertTo(event) {
     setConvertTo(event.target.value);
   }
-
   return(
+
     <div>
       <div className = "main">
         <input type="text" className="recipieName" placeholder="Name of recipie..." onChange={changeRecipieName}>
@@ -159,8 +187,10 @@ const NewRecipeStep1 = () => {
 
 }
 
+
+
 function Ingredient(){
-  return(     
+  return(       
     <div className="ingredientBox">
     <Textfieldingredient/>
     <div className = "button"> System </div>
@@ -168,10 +198,6 @@ function Ingredient(){
     </div>
     )
 }
-
-
-
-
 function Textfieldingredient() {
 if(b == null){
     b = "Name of ingredient";
@@ -184,19 +210,12 @@ function Textfieldrecipe() {
 if(a == null){
     a = "Name of recipe";
 }
-
-
-
   return(
    <input type="text" id="namnge" placeholder={a} onChange={changeInput} />
-   
- 
     )
 }
-
 function changeInput(event){
 a = event.target.value;
-
 }
 
 function changeInput2(event){
@@ -241,7 +260,7 @@ const QuickConvert = props => {
   }
 
   return(
-    <div className="quickConvert">
+    <div className="green">
       <h1 className="header">Quick Convert</h1>
 
       <h2>From</h2>
