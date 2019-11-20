@@ -104,7 +104,7 @@ function App() {
             <NewRecipeStep1/>
           </Route>
           <Route path="/steptwo">
-            <NewRecipeStep1/>
+            <NewRecipeStep2/>
           </Route>
           <Route path="/">
             <QuickConvert/>
