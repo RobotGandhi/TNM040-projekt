@@ -14,7 +14,7 @@ function App() {
 	        <Switch>
 	          	<Route path="/steptwo"><NewRecipeStep2/></Route>
 	          	<Route path="/stepone"><NewRecipeStep1/></Route>
-	      		<Route path="/"><QuickConvert/><Route>
+	      		<Route path="/"><QuickConvert/></Route>
 	        </Switch>
 	    </Router>
     </div>
