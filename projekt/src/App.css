@@ -6,10 +6,16 @@
   height: 50px;
   left: 163px;
   top: 486px;
-  
+
   text-align: center;
   vertical-align: middle;
   line-height: 50px;
+}
+.knapp:hover {
+
+}
+.knapp:active {
+                                         
 }
 
 .content{
@@ -70,4 +76,24 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 #namnge{
   width: 100%;
+}
+
+.textInput {
+  height: 5vh;
+  background-color: whitesmoke;
+  width: 20vw;
+}
+
+.dropdown {
+  height: 5vh;
+  background-color: #7289DA;
+  width: 20vw;
+}
+
+.dropdown-content {
+
+}
+
+.quickConvert {
+
 }
