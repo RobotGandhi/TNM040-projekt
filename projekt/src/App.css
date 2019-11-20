@@ -1,4 +1,4 @@
-.knapp{
+.button{
   background-color: #7289DA;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   color: white;
@@ -18,14 +18,25 @@
                                          
 }
 
+.knapp:active{ background-color: rgba(105, 125, 208, 1); } 
+.knapp:hover{ cursor: pointer; }
+
 .content{
   height: 89vh;
-  background-color: grey; 
-  
+  background-color: grey;  
 }
-
+.header{
+  margin-top: 0;
+}
+.navHeader{
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 89vh;
+}
 .navBar{
   display: flex;
+  flex-grow: 1;
   justify-content: space-around;
 }
 
@@ -34,6 +45,9 @@
   text-align: center;
   flex-grow: 1;
   height: 11vh;
+  background: #34495A;
+  border: 1px solid #455F75;
+
 }
 
 .ingredientBox{
@@ -41,7 +55,6 @@ width: 400px;
 height: 125px;
 left: 48px;
 top: 164px;
-
 background: #34495A;
 box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -57,22 +70,22 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .green{
-  background-color: green;
+  background: #2A3B49;
   height: 89vh;
 }
 
 .red{
-  background-color: red;
+  background: #2A3B49;
   height: 89vh;
 }
 
 .blue {
-  background-color: blue;
+  background: #2A3B49;
   height: 89vh;
 }
 
 .isSelected {
-  background-color: black;
+background: #2A3B49;
 }
 #namnge{
   width: 100%;
