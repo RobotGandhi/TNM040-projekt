@@ -20,7 +20,7 @@ function App() {
     </div>
   );
 }
-const NewRecipeStep2 => {
+const NewRecipeStep2 = () => {
   const [howManyIngredients, setHowManyIngredients ] = useState(1);
 
   let ingredientsarray=[];/*
@@ -46,7 +46,7 @@ let temp = ingredientsarray.map((x,idx) => <Ingredient key = {idx}/> );
     </div>
     );
 }
-const NewRecipeStep1 => {
+const NewRecipeStep1 = () => {
 
   return(
 
