@@ -10,22 +10,6 @@ const Green = (props) => {
   );
 }
 
-/*function Red(props) {
-  return(
-    <div className ="red">
-    R
-    </div>
-  );
-}
-
-function Blue(props) {
-  return(
-    <div className ="blue">
-    B
-    </div>
-  );
-}*/
-
 function NavBar(props){
   //states for what navbar button is selected
   const [selection1, setSelection1] = useState(false);
@@ -85,16 +69,6 @@ let a = null;
 let b = null;
  
 function App() {
-
-	/*<div className="App">
-	    <Router>
-	        <Switch>
-	          	<Route path="/steptwo"><NewRecipeStep2/></Route>
-	          	<Route path="/stepone"><NewRecipeStep1/></Route>
-	      		<Route path="/"><QuickConvert/></Route>
-	        </Switch>
-	    </Router>
-    </div>*/
   return (
     <Router>
       <div>
@@ -120,31 +94,18 @@ function App() {
 
 const NewRecipeStep2 = ({match}) => {
   
-  const [howManyIngredients, setHowManyIngredients ] = useState(1);
+  const [howManyIngredients, setHowManyIngredients] = useState(0);
 
-  let ingredientsarray=[];
+  let ingredientsArray=[];
 
-  for( let i = 0; i < howManyIngredients; i++ ){
-
-    ingredientsarray.push(" ");
-  }
-  let temp = ingredientsarray.map((x,idx) => <Ingredient key = {idx}/> );
-  return(
-    <div className = "main">
-      <Textfieldrecipe/>
-
-      {temp}
-      
-      <div className = "button"> Save </div>
-      <div onClick = {() => setHowManyIngredients(howManyIngredients + 1)} className = "button"> Add </div> 
-    </div>
-    );
+  return(<h2>In progress...</h2>);
 }
 
 
 
 const NewRecipeStep1 = () => {
   let convert = require('convert-units');
+  
   const [recipieName, setRecipieName] = useState("");
   const [convertFrom, setConvertFrom] = useState("US-Custom");
   const [convertTo, setConvertTo] = useState("Metric");
@@ -176,52 +137,38 @@ const NewRecipeStep1 = () => {
           <option value="US-Custom">US-Custom</option>
         </select>
         
-        <Link to="/steptwo">
+        <Link to={"/steptwo/" + convertFrom + "/" + convertTo}>
           <div className = "button">   
             Create 
           </div>
         </Link>   
-        </div>
       </div>
+    </div>
   )
 
 }
 
+const Ingredient = props => {
+  const ingredientName = props.recipieName;
+  const ingredientAmount = props.ingredientAmount;
+  const ingredientUnit = props.ingredientUnit;
 
 
-function Ingredient(){
+}
+
+
+/*function Ingredient(){
   return(       
     <div className="ingredientBox">
-    <Textfieldingredient/>
-    <div className = "button"> System </div>
-    <div className = "button"> System </div>
+      <div className = "button"> System </div>
+      <div className = "button"> System </div>
     </div>
-    )
-}
-function Textfieldingredient() {
-if(b == null){
-    b = "Name of ingredient";
+  )
 }
 return(
 <input type="text" id="namnge" placeholder={b} onChange={changeInput2} />
 )
-}
-function Textfieldrecipe() {
-if(a == null){
-    a = "Name of recipe";
-}
-  return(
-   <input type="text" id="namnge" placeholder={a} onChange={changeInput} />
-    )
-}
-function changeInput(event){
-a = event.target.value;
-}
-
-function changeInput2(event){
-b = event.target.value;
-}
-
+}*/
 
 
 const QuickConvert = props => {
