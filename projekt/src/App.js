@@ -263,42 +263,48 @@ const QuickConvert = props => {
     <div className="green">
 
       <h1 className="header">Quick Convert</h1>
-
-      <h2>From</h2>
-      <select value={convertFrom} className="dropdown" onChange={changeConvertFrom}>
-        <option value="US-Custom">US-Custom</option>
-        <option value="Metric">Metric</option>
-      </select>
-
-      <h2>To</h2>
-      <select value={convertTo} className="dropdown" onChange={changeConvertTo}>
-        <option value="Metric">Metric</option>
-        <option value="US-Custom">US-Custom</option>
-      </select>
-
-      <div className="quickConvert">
+<div className="super">
+  <div className="quickConvert">
+    <h2>From</h2>
+    <div className="daddyCool">
+        <div className="daddy2">
+          <div className="child1">
+            <select value={convertFrom} className="dropdown" onChange={changeConvertFrom}>
+              <option value="US-Custom">US-Custom</option>
+              <option value="Metric">Metric</option>
+            </select>
+          </div>
+          <div className="child2">
+            {convertFrom === "US-Custom" &&
+            <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
+              <option value="oz">Ounces</option>
+              <option value="lb">Pounds</option>
+              <option value="fl-oz">Fluid Ounces</option>
+              <option value="cup">Cups</option>
+              <option value="pnt">Pints</option>
+              <option value="qt">Quarts</option>
+              <option value="gal">Gallons</option>
+            </select>}
+            {convertFrom === "Metric" &&
+            <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
+              <option value="mg">Milligrams</option>
+              <option value="g">Grams</option>
+              <option value="kg">Kilograms</option>
+              <option value="ml">Milliliters</option>
+              <option value="dl">Deciliters</option>
+              <option value="l">Liters</option>
+            </select>}
+          </div>
+        </div>
+      <div className="daddy1">
         <input type="text" className="textInput" onChange={changeConversionAmount}></input>
-        {convertFrom === "US-Custom" &&
-        <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
-          <option value="oz">Ounces</option>
-          <option value="lb">Pounds</option>
-          <option value="fl-oz">Fluid Ounces</option>
-          <option value="cup">Cups</option>
-          <option value="pnt">Pints</option>
-          <option value="qt">Quarts</option>
-          <option value="gal">Gallons</option>
-        </select>}
-        {convertFrom === "Metric" &&
-        <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
-          <option value="mg">Milligrams</option>
-          <option value="g">Grams</option>
-          <option value="kg">Kilograms</option>
-          <option value="ml">Milliliters</option>
-          <option value="dl">Deciliters</option>
-          <option value="l">Liters</option>
-        </select>}
-
-        <div className="knapp" onClick={doConvert}>Convert!</div>
+      </div>
+    </div>
+        <h2>To</h2>
+        <select value={convertTo} className="dropdown" onChange={changeConvertTo}>
+            <option value="Metric">Metric</option>
+            <option value="US-Custom">US-Custom</option>
+            </select>
 
         <input type="text" className="textInput" value={conversionResult} disabled></input>
         {convertTo === "US-Custom" &&
@@ -320,9 +326,13 @@ const QuickConvert = props => {
           <option value="dl">Deciliters</option>
           <option value="l">Liters</option>
         </select>}
+            <div className="mrpoopypants">
+            <div className="knapp" onClick={doSwap}>Swap</div>
+            <div className="knapp" onClick={doConvert}>Convert!</div>
+        </div>
       </div>
-      <div className="knapp" onClick={doSwap}>Swap</div>
-    </div>
+</div>
+</div>
   )
 };
 

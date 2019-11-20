@@ -92,15 +92,18 @@ background: #2A3B49;
 }
 
 .textInput {
-  height: 5vh;
+  height: 20%;
   background-color: whitesmoke;
-  width: 20vw;
+  width: 100%;
+  margin-left: 2vw;
 }
 
 .dropdown {
   height: 5vh;
-  background-color: #7289DA;
-  width: 20vw;
+  background-color: #34495A;
+  width: 100%;
+  box-shadow: black;
+  font-family: "Roboto Light";
 }
 
 .dropdown-content {
@@ -109,4 +112,22 @@ background: #2A3B49;
 
 .quickConvert {
 
+}
+
+.super {
+  display: flex;
+  justify-content: center;
+}
+
+.daddyCool {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.daddy1 {
+
+}
+.daddy2 {
+  align-content: space-between;
 }
