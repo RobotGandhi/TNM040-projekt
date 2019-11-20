@@ -4,7 +4,7 @@ import './App.css';
 
 let a = null;
 let b = null;
-
+ 
 function App() {
 
 
@@ -21,17 +21,28 @@ function App() {
   );
 }
 const NewRecipeStep2(){
-  
+  const [howManyIngredients, setHowManyIngredients ] = useState(1);
+
+  let ingredientsarray=[];/*
+  let temp= [];
+  ingredientsarray.push(" ");
+ 
+*/
+for( let i = 0; i < howManyIngredients; i++ ){
+
+ingredientsarray.push(" ");
+}
+let temp = ingredientsarray.map((x,idx) => <Ingredient key = {idx}/> );
   return(
     <div className = "main">
       <Textfieldrecipe/>
-      <Ingredient/>
-      <Ingredient/>
-      <Ingredient/>
-      <Ingredient/>
+
+      {temp}
+      
+    
 
       <div className = "knapp"> Save </div>
-      <div className = "knapp"> Add </div>
+      <div onClick = {() => setHowManyIngredients(howManyIngredients + 1)} className = "knapp"> Add </div> 
     </div>
     );
 }
@@ -44,21 +55,27 @@ const NewRecipeStep1(){
 <Textfieldrecipe/>
 <p> From </p> <div className = "knapp"> System </div>
    <p> To </p> <div className = "knapp"> System </div>
-   <Link to="/steptwo"><div className = "knapp">   Create </div></Link>   </div>
+   <Link to="/steptwo" ><div className = "knapp">   Create </div></Link>   </div>
 
 </div>
     )
 }
 
 
+
 function Ingredient(){
+ 
   return(
+
+  
+            
     <div className="ingredientBox">
     <Textfieldingredient/>
     <div className = "knapp"> System </div>
     <div className = "knapp"> System </div>
     </div>
     )
+
 }
 
 
