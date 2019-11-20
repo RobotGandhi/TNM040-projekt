@@ -77,7 +77,7 @@ function App() {
           <Route path="/stepone">
             <NewRecipeStep1/>
           </Route>
-          <Route path="/steptwo">
+          <Route path="/steptwo/:from/:to">
             <NewRecipeStep2/>
           </Route>
           <Route path="/">
@@ -89,55 +89,82 @@ function App() {
     </Router>
   );
 }
-const NewRecipeStep2 = () => {
+
+const NewRecipeStep2 = ({match}) => {
+  
   const [howManyIngredients, setHowManyIngredients ] = useState(1);
 
-  let ingredientsarray=[];/*
-  let temp= [];
-  ingredientsarray.push(" ");
- 
-*/
-for( let i = 0; i < howManyIngredients; i++ ){
+  let ingredientsarray=[];
 
-ingredientsarray.push(" ");
-}
-let temp = ingredientsarray.map((x,idx) => <Ingredient key = {idx}/> );
+  for( let i = 0; i < howManyIngredients; i++ ){
+
+    ingredientsarray.push(" ");
+  }
+  let temp = ingredientsarray.map((x,idx) => <Ingredient key = {idx}/> );
   return(
     <div className = "main">
       <Textfieldrecipe/>
 
       {temp}
       
-      <div className = "knapp"> Save </div>
-      <div onClick = {() => setHowManyIngredients(howManyIngredients + 1)} className = "knapp"> Add </div> 
+      <div className = "button"> Save </div>
+      <div onClick = {() => setHowManyIngredients(howManyIngredients + 1)} className = "button"> Add </div> 
     </div>
     );
 }
 
+
+
 const NewRecipeStep1 = () => {
+  let convert = require('convert-units');
+  const [recipieName, setRecipieName] = useState("");
+  const [convertFrom, setConvertFrom] = useState("US-Custom");
+  const [convertTo, setConvertTo] = useState("Metric");
+
+  function changeRecipieName(event) {
+    setRecipieName(event.target.value);
+  }
+  function changeConvertFrom(event) {
+    setConvertFrom(event.target.value);
+  }
+  function changeConvertTo(event) {
+    setConvertTo(event.target.value);
+  }
+
   return(
     <div>
       <div className = "main">
-        <Textfieldrecipe/>
+        <input type="text" className="recipieName" placeholder="Name of recipie..." onChange={changeRecipieName}>
+        </input>
+        <p>From</p>
+        <select value={convertFrom} className="button" onChange={changeConvertFrom}>
+          <option value="US-Custom">US-Custom</option>
+          <option value="Metric">Metric</option>
+        </select>
+
+        <p>To</p>
+        <select value={convertTo} className="button" onChange={changeConvertTo}>
+          <option value="Metric">Metric</option>
+          <option value="US-Custom">US-Custom</option>
+        </select>
         
-        <p> From </p> 
-        <div className = "knapp"> System </div>
-        <p> To </p> 
-        <div className = "knapp"> System </div>
-        <Link to="/steptwo" >
-          <div className = "knapp">   Create </div>
+        <Link to="/steptwo">
+          <div className = "button">   
+            Create 
+          </div>
         </Link>   
+        </div>
       </div>
-    </div>
   )
+
 }
 
 function Ingredient(){
   return(     
     <div className="ingredientBox">
     <Textfieldingredient/>
-    <div className = "knapp"> System </div>
-    <div className = "knapp"> System </div>
+    <div className = "button"> System </div>
+    <div className = "button"> System </div>
     </div>
     )
 }
@@ -161,7 +188,6 @@ if(a == null){
 
 
   return(
-    
    <input type="text" id="namnge" placeholder={a} onChange={changeInput} />
    
  
@@ -172,9 +198,9 @@ function changeInput(event){
 a = event.target.value;
 
 }
+
 function changeInput2(event){
 b = event.target.value;
-
 }
 
 
