@@ -10,22 +10,6 @@ const Green = (props) => {
   );
 }
 
-/*function Red(props) {
-  return(
-    <div className ="red">
-    R
-    </div>
-  );
-}
-
-function Blue(props) {
-  return(
-    <div className ="blue">
-    B
-    </div>
-  );
-}*/
-
 function NavBar(props){
   //states for what navbar button is selected
   const [selection1, setSelection1] = useState(false);
@@ -83,16 +67,6 @@ let a = null;
 let b = null;
  
 function App() {
-
-	/*<div className="App">
-	    <Router>
-	        <Switch>
-	          	<Route path="/steptwo"><NewRecipeStep2/></Route>
-	          	<Route path="/stepone"><NewRecipeStep1/></Route>
-	      		<Route path="/"><QuickConvert/></Route>
-	        </Switch>
-	    </Router>
-    </div>*/
   return (
     <Router>
       <div>
@@ -134,43 +108,38 @@ let temp = ingredientsarray.map((x,idx) => <Ingredient key = {idx}/> );
 
       {temp}
       
-    
-
       <div className = "knapp"> Save </div>
       <div onClick = {() => setHowManyIngredients(howManyIngredients + 1)} className = "knapp"> Add </div> 
     </div>
     );
 }
+
 const NewRecipeStep1 = () => {
-
   return(
-
     <div>
-    <div className = "main">
-<Textfieldrecipe/>
-<p> From </p> <div className = "knapp"> System </div>
-   <p> To </p> <div className = "knapp"> System </div>
-   <Link to="/steptwo" ><div className = "knapp">   Create </div></Link>   </div>
-
-</div>
-    )
+      <div className = "main">
+        <Textfieldrecipe/>
+        
+        <p> From </p> 
+        <div className = "knapp"> System </div>
+        <p> To </p> 
+        <div className = "knapp"> System </div>
+        <Link to="/steptwo" >
+          <div className = "knapp">   Create </div>
+        </Link>   
+      </div>
+    </div>
+  )
 }
 
-
-
 function Ingredient(){
- 
-  return(
-
-  
-            
+  return(     
     <div className="ingredientBox">
     <Textfieldingredient/>
     <div className = "knapp"> System </div>
     <div className = "knapp"> System </div>
     </div>
     )
-
 }
 
 
