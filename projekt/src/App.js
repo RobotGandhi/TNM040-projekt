@@ -29,7 +29,7 @@ function Blue(props) {
 function NavBar(props){
   //states for what navbar button is selected
   const [selection1, setSelection1] = useState(false);
-  const [selection2, setSelection2] = useState(false);
+  const [selection2, setSelection2] = useState(true);
   const [selection3, setSelection3] = useState(false);
 
   //state becomes true if nav bar button is clicked
@@ -62,7 +62,7 @@ function NavBar(props){
       </div>
     </Link>
     {/*Quick Convert*/}
-    <Link to ="/convert" className={`navButton ${selection2 ? 'isSelected' : ''}`} onClick={button2Selected}>
+    <Link to ="/" className={`navButton ${selection2 ? 'isSelected' : ''}`} onClick={button2Selected}>
       <div>
        R
       </div>
