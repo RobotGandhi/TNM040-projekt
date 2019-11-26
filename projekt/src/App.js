@@ -105,7 +105,7 @@ const NewRecipeStep2 = ({match}) => {
 
 const NewRecipeStep1 = () => {
   let convert = require('convert-units');
-  
+
   const [recipieName, setRecipieName] = useState("");
   const [convertFrom, setConvertFrom] = useState("US-Custom");
   const [convertTo, setConvertTo] = useState("Metric");
