@@ -65,9 +65,6 @@ function NavBar(props){
   
 }
 
-let a = null;
-let b = null;
- 
 function App() {
   return (
     <Router>
@@ -93,12 +90,28 @@ function App() {
 }
 
 const NewRecipeStep2 = ({match}) => {
-  
-  const [howManyIngredients, setHowManyIngredients] = useState(0);
 
-  let ingredientsArray=[];
+  const [ingredients,setListOfIngredients] = useState([]);
 
-  return(<h2>In progress...</h2>);
+  function addIngredientBlock () {
+    setListOfIngredients([
+      ...ingredients,
+      {
+        name: ingredients.name,
+        amount: ingredients.amount,
+        unit: ingredients.unit
+      }
+    ])
+  }  
+
+  return(
+    <div>
+      <button onClick={addIngredientBlock}>
+        +
+      </button>
+      
+    </div>
+  );
 }
 
 
@@ -148,13 +161,8 @@ const NewRecipeStep1 = () => {
 
 }
 
-const Ingredient = props => {
-  const ingredientName = props.recipieName;
-  const ingredientAmount = props.ingredientAmount;
-  const ingredientUnit = props.ingredientUnit;
 
 
-}
 
 
 /*function Ingredient(){
