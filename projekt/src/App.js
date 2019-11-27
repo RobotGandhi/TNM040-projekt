@@ -93,23 +93,36 @@ const NewRecipeStep2 = ({match}) => {
 
   const [ingredients,setListOfIngredients] = useState([]);
 
-  function addIngredientBlock () {
+
+  function addIngredientToList () {
     setListOfIngredients([
       ...ingredients,
       {
         name: ingredients.name,
         amount: ingredients.amount,
-        unit: ingredients.unit
+        unit: ingredients.unit,
+        id: ingredients.id
       }
     ])
   }  
 
   return(
     <div>
-      <button onClick={addIngredientBlock}>
+      <button onClick={addIngredientToList}>
         +
       </button>
-      
+    </div>
+  );
+}
+
+const IngredientBlock = () => {
+  return(
+    <div>
+      <input type="text" placeholder="Name..." className="ingredientName">
+      </input>
+      <input type="text" className="ingredientAmount">
+      </input>
+
     </div>
   );
 }
