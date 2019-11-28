@@ -65,9 +65,6 @@ function NavBar(props){
   
 }
 
-let a = null;
-let b = null;
- 
 function App() {
   return (
     <Router>
@@ -93,19 +90,48 @@ function App() {
 }
 
 const NewRecipeStep2 = ({match}) => {
-  
-  const [howManyIngredients, setHowManyIngredients] = useState(0);
 
-  let ingredientsArray=[];
+  const [ingredients,setListOfIngredients] = useState([]);
 
-  return(<h2>In progress...</h2>);
+
+  function addIngredientToList () {
+    setListOfIngredients([
+      ...ingredients,
+      {
+        name: ingredients.name,
+        amount: ingredients.amount,
+        unit: ingredients.unit,
+        id: ingredients.id
+      }
+    ])
+  }  
+
+  return(
+    <div>
+      <button onClick={addIngredientToList}>
+        +
+      </button>
+    </div>
+  );
+}
+
+const IngredientBlock = () => {
+  return(
+    <div>
+      <input type="text" placeholder="Name..." className="ingredientName">
+      </input>
+      <input type="text" className="ingredientAmount">
+      </input>
+
+    </div>
+  );
 }
 
 
 
 const NewRecipeStep1 = () => {
   let convert = require('convert-units');
-  
+
   const [recipieName, setRecipieName] = useState("");
   const [convertFrom, setConvertFrom] = useState("US-Custom");
   const [convertTo, setConvertTo] = useState("Metric");
@@ -148,13 +174,8 @@ const NewRecipeStep1 = () => {
 
 }
 
-const Ingredient = props => {
-  const ingredientName = props.recipieName;
-  const ingredientAmount = props.ingredientAmount;
-  const ingredientUnit = props.ingredientUnit;
 
 
-}
 
 
 /*function Ingredient(){
