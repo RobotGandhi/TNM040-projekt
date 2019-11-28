@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Link, useParams} from "react-router-dom";
 
 const Green = (props) => {
   return(
@@ -79,6 +79,9 @@ function App() {
           <Route path="/steptwo/:from/:to">
             <NewRecipeStep2/>
           </Route>
+          <Route path="/stepthree/:from/:to">
+            <NewRecipeStep3/>
+          </Route>
           <Route path="/">
             <QuickConvert/>
           </Route>
@@ -91,6 +94,7 @@ function App() {
 
 const NewRecipeStep2 = ({match}) => {
 
+  let {from, to} = useParams();
   const [ingredients,setListOfIngredients] = useState([]);
 
 
@@ -104,15 +108,32 @@ const NewRecipeStep2 = ({match}) => {
         id: ingredients.id
       }
     ])
-  }  
+  }
 
   return(
     <div>
       <button onClick={addIngredientToList}>
         +
       </button>
+      <Link to={"/stepthree/" + from + "/" + to}>
+        <button>Save</button>
+      </Link>
     </div>
   );
+}
+
+//Preliminär lösning. hade varit bättre med en modal
+const NewRecipeStep3 = () => {
+  return(
+    <div>
+      <h2>Namn på recept</h2>
+      <form>
+        <input></input>
+      </form>
+        <button>Back</button>
+        <button>Save</button>
+    </div>
+  )
 }
 
 const IngredientBlock = () => {
