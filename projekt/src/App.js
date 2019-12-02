@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link, useParams} from "react-router-dom";
+import Modal from 'react-modal';
 
 const Green = (props) => {
   return(
@@ -9,6 +10,18 @@ const Green = (props) => {
     </div>
   );
 }
+
+//Modal styling
+const customStyles = {
+  content : {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: "-50%",
+    transform: 'translate(-50%, -50%)'
+  }
+};
 
 function NavBar(props){
   //states for what navbar button is selected
@@ -79,9 +92,6 @@ function App() {
           <Route path="/steptwo/:from/:to">
             <NewRecipeStep2/>
           </Route>
-          <Route path="/stepthree/:from/:to">
-            <NewRecipeStep3/>
-          </Route>
           <Route path="/">
             <QuickConvert/>
           </Route>
@@ -110,30 +120,39 @@ const NewRecipeStep2 = ({match}) => {
     ])
   }
 
+  //Modal handling
+  const [modalIsOpen, setIsOpen] = useState(false);
+  function openModal() {
+    setIsOpen(true);
+  }
+  function afterOpenModal() {
+    //References are synced and can be accesssed here.
+  }
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   return(
     <div>
       <button onClick={addIngredientToList}>
         +
       </button>
-      <Link to={"/stepthree/" + from + "/" + to}>
-        <button>Save</button>
-      </Link>
+        <button onClick = {openModal}>Save</button>
+        <Modal
+        isOpen = {modalIsOpen}
+        onAfterOpen = {afterOpenModal}
+        onRequestClose = {closeModal}
+        style = {customStyles}
+        contentLabel = "Example Modal">
+          <h2>Recipe name</h2>
+          <form>
+            <input/>
+          </form>
+          <button onClick = {closeModal}>Back</button>
+          <button>Save</button>
+        </Modal>
     </div>
   );
-}
-
-//Preliminär lösning. hade varit bättre med en modal
-const NewRecipeStep3 = () => {
-  return(
-    <div>
-      <h2>Namn på recept</h2>
-      <form>
-        <input></input>
-      </form>
-        <button>Back</button>
-        <button>Save</button>
-    </div>
-  )
 }
 
 const IngredientBlock = () => {
@@ -143,7 +162,6 @@ const IngredientBlock = () => {
       </input>
       <input type="text" className="ingredientAmount">
       </input>
-
     </div>
   );
 }
@@ -194,10 +212,6 @@ const NewRecipeStep1 = () => {
   )
 
 }
-
-
-
-
 
 /*function Ingredient(){
   return(       
