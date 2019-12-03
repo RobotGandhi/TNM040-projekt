@@ -3,6 +3,12 @@ import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link, useParams} from "react-router-dom";
 import Modal from 'react-modal';
 
+let recipeMasterList = [];
+
+function addToMasterList(recipe){
+  recipeMasterList.push(recipe);
+}
+
 const Green = (props) => {
   return(
     <div className ="green">
@@ -133,7 +139,7 @@ const NewRecipeStep2 = ({match}) => {
   const IngredientBlock = () => {
     return(
       <div>
-        <input type="text" className="ingredientName" onChange={changeIngredientName}>
+        <input type="text" className="ingredientName" key={ingredientCounter} value={ingredientName} onChange={changeIngredientName}>
         </input>
         <input type="text" className="ingredientAmount">
         </input>
@@ -164,6 +170,7 @@ const NewRecipeStep2 = ({match}) => {
       </button>
       <div>
         {ingredientBlocks}
+        
       </div>
       <Link to={"/stepthree/" + from + "/" + to}>
         <button>Save</button>
@@ -187,18 +194,19 @@ const NewRecipeStep2 = ({match}) => {
   );
 }
 
-const IngredientBlock = () => {
+//Preliminär lösning. hade varit bättre med en modal
+const NewRecipeStep3 = () => {
   return(
     <div>
-      <input type="text" placeholder="Name..." className="ingredientName">
-      </input>
-      <input type="text" className="ingredientAmount">
-      </input>
+      <h2>Namn på recept</h2>
+      <form>
+        <input></input>
+      </form>
+        <button>Back</button>
+        <button>Save</button>
     </div>
-  );
+  )
 }
-
-
 
 const NewRecipeStep1 = () => {
   let convert = require('convert-units');
