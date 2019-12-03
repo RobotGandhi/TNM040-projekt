@@ -179,26 +179,12 @@ const NewRecipeStep2 = ({match}) => {
             <form>
               <textarea className ="descriptionField"/>
             </form>
-            <button onClick = {closeModal}>Back</button>
-            <button>Save</button>
+            <div onClick = {closeModal} className = "buttonModal" >Back</div>
+            <div className = "buttonModal">Save</div>
           </div>
         </Modal>
     </div>
   );
-}
-
-//Preliminär lösning. hade varit bättre med en modal
-const NewRecipeStep3 = () => {
-  return(
-    <div>
-      <h2>Namn på recept</h2>
-      <form>
-        <input></input>
-      </form>
-        <button>Back</button>
-        <button>Save</button>
-    </div>
-  )
 }
 
 const IngredientBlock = () => {
