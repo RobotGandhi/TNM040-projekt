@@ -11,18 +11,6 @@ const Green = (props) => {
   );
 }
 
-//Modal styling
-const customStyles = {
-  content : {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: "-50%",
-    transform: 'translate(-50%, -50%)'
-  }
-};
-
 function NavBar(props){
   //states for what navbar button is selected
   const [selection1, setSelection1] = useState(false);
@@ -126,11 +114,7 @@ const NewRecipeStep2 = ({match}) => {
         id: ingredientID
       }
     ])
-
-    
-
   }
-
 
   function incrementBlocks (event) {
     setIngredientCounter(ingredientCounter + 1);
@@ -185,18 +169,19 @@ const NewRecipeStep2 = ({match}) => {
         <button>Save</button>
       </Link>
         <button onClick = {openModal}>Save</button>
-        <Modal
+        <Modal className = "descriptionModal"
         isOpen = {modalIsOpen}
         onAfterOpen = {afterOpenModal}
         onRequestClose = {closeModal}
-        style = {customStyles}
         contentLabel = "Example Modal">
-          <h2>Recipe name</h2>
-          <form>
-            <input/>
-          </form>
-          <button onClick = {closeModal}>Back</button>
-          <button>Save</button>
+          <div>
+            <h3>Recipe name</h3>
+            <form>
+              <textarea className ="descriptionField"/>
+            </form>
+            <button onClick = {closeModal}>Back</button>
+            <button>Save</button>
+          </div>
         </Modal>
     </div>
   );
