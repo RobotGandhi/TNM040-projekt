@@ -95,26 +95,67 @@ function App() {
 const NewRecipeStep2 = ({match}) => {
 
   let {from, to} = useParams();
+
+  const ingredientBlocks = [];
+
   const [ingredients,setListOfIngredients] = useState([]);
+  const [ingredientCounter, setIngredientCounter] = useState(0);
+  const [ingredientName, setIngredientName] = useState("Jeff");
+  const [ingredientAmount, setIngredientAmount] = useState(0.0);
+  const [ingredientUnit, setIngredientUnit] = useState("");
+  const [ingredientID, setIngredientID] = useState(0);
 
+  function addIngredientToList (event) {
 
-  function addIngredientToList () {
+    setIngredientID(ingredientCounter);
+    
     setListOfIngredients([
       ...ingredients,
       {
-        name: ingredients.name,
-        amount: ingredients.amount,
-        unit: ingredients.unit,
-        id: ingredients.id
+        name: ingredientName,
+        amount: ingredientAmount,
+        unit: ingredientUnit,
+        id: ingredientID
       }
     ])
+
+    
+
   }
 
+  const incrementBlocks = event => {
+    setIngredientCounter(ingredientCounter + 1);
+    console.log(ingredients);
+  };
+
+  function blocksAndIngredients (event) {
+    incrementBlocks();
+    addIngredientToList();
+  }
+
+  const IngredientBlock = () => {
+    return(
+      <div>
+        <input type="text" placeholder="Name..." className="ingredientName" onChange={setIngredientName}>
+        </input>
+        <input type="text" className="ingredientAmount">
+        </input>
+      </div>
+    );
+  }  
+
+  for(let i = 0; i < ingredientCounter; i++ ) {
+    ingredientBlocks.push(<IngredientBlock/>);
+  }
+  
   return(
     <div>
-      <button onClick={addIngredientToList}>
+      <button onClick={blocksAndIngredients}>
         +
       </button>
+      <div>
+        {ingredientBlocks}
+      </div>
       <Link to={"/stepthree/" + from + "/" + to}>
         <button>Save</button>
       </Link>
@@ -135,20 +176,6 @@ const NewRecipeStep3 = () => {
     </div>
   )
 }
-
-const IngredientBlock = () => {
-  return(
-    <div>
-      <input type="text" placeholder="Name..." className="ingredientName">
-      </input>
-      <input type="text" className="ingredientAmount">
-      </input>
-
-    </div>
-  );
-}
-
-
 
 const NewRecipeStep1 = () => {
   let convert = require('convert-units');
