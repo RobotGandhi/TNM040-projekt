@@ -110,14 +110,12 @@ const NewRecipeStep2 = ({match}) => {
 
   const [ingredients,setListOfIngredients] = useState([]);
   const [ingredientCounter, setIngredientCounter] = useState(0);
-  const [ingredientName, setIngredientName] = useState("Jeff");
+  const [ingredientName, setIngredientName] = useState("");
   const [ingredientAmount, setIngredientAmount] = useState(0.0);
   const [ingredientUnit, setIngredientUnit] = useState("");
   const [ingredientID, setIngredientID] = useState(0);
 
   function addIngredientToList (event) {
-
-    setIngredientID(ingredientCounter);
     
     setListOfIngredients([
       ...ingredients,
@@ -133,10 +131,15 @@ const NewRecipeStep2 = ({match}) => {
 
   }
 
-  const incrementBlocks = event => {
+
+  function incrementBlocks (event) {
     setIngredientCounter(ingredientCounter + 1);
     console.log(ingredients);
   };
+
+  function changeIngredientName(event) {
+    setIngredientName(event.target.value);
+  }
 
   function blocksAndIngredients (event) {
     incrementBlocks();
@@ -146,7 +149,7 @@ const NewRecipeStep2 = ({match}) => {
   const IngredientBlock = () => {
     return(
       <div>
-        <input type="text" placeholder="Name..." className="ingredientName" onChange={setIngredientName}>
+        <input type="text" className="ingredientName" onChange={changeIngredientName}>
         </input>
         <input type="text" className="ingredientAmount">
         </input>
@@ -155,7 +158,7 @@ const NewRecipeStep2 = ({match}) => {
   }  
 
   for(let i = 0; i < ingredientCounter; i++ ) {
-    ingredientBlocks.push(<IngredientBlock/>);
+    ingredientBlocks.push(<IngredientBlock key={ingredientCounter}/>);
   }
   
   //Modal handling
