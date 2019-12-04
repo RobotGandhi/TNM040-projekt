@@ -100,8 +100,8 @@ const NewRecipeStep2 = ({match}) => {
 
   let {from, to} = useParams();
 
-  //let convertFrom = match.params.from;
-  //let convertTo = match.params.to; 
+  let convertFrom = {from};
+  let convertTo = {to}; 
 
   const IngredientBlock = (props) => {
     return(
@@ -110,10 +110,29 @@ const NewRecipeStep2 = ({match}) => {
         </input>
         <input type="text" className="ingredientAmount" key={props.id + ".amount"} onChange={changeIngredientAmount}>
         </input>
-        <span> </span>
+        <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
+          <option value="oz">Ounces</option>
+          <option value="lb">Pounds</option>
+          <option value="fl-oz">Fluid Ounces</option>
+          <option value="cup">Cups</option>
+          <option value="pnt">Pints</option>
+          <option value="qt">Quarts</option>
+          <option value="gal">Gallons</option>
+        </select>
+        <span> To </span>
+        <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
+          <option value="mg"> Milligrams </option>
+          <option value="g"> Grams </option>
+          <option value="kg"> Kilograms </option>
+          <option value="ml"> Milliliters </option>
+          <option value="dl"> Deciliters </option>
+          <option value="l"> Liters </option>
+        </select>
       </div>
     );
   }  
+
+  const [convertFromUnit, setConvertFromUnit] = useState("oz");
 
   const [ingredientCounter, setIngredientCounter] = useState(1);
   const [ingredientBlocks, setIngredientBlocks] = useState([<IngredientBlock key={ingredientCounter} id={ingredientCounter} />]);
@@ -139,6 +158,10 @@ const NewRecipeStep2 = ({match}) => {
     setIngredientID(ingredientID + 1);
   }
 
+  function changeConvertFromUnit(event) {
+    setConvertFromUnit(event.target.value);
+  }
+
   function blocksAndIngredients () {
     incrementIngredientID();
     ingredientBlocks.push(<IngredientBlock key={"I" + ingredientCounter } id={ingredientCounter} />);
@@ -147,7 +170,7 @@ const NewRecipeStep2 = ({match}) => {
       {
         name: ingredientName,
         amount: ingredientAmount,
-        unit: ingredientUnit,
+        unitFrom: convertFromUnit,
         id: ingredientID
       }
     ])
