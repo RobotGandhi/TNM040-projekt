@@ -100,14 +100,17 @@ const NewRecipeStep2 = ({match}) => {
 
   let {from, to} = useParams();
 
+  //let convertFrom = match.params.from;
+  //let convertTo = match.params.to; 
+
   const IngredientBlock = (props) => {
-    console.log(props);
     return(
       <div>
         <input type="text" className="ingredientName" key={props.id + ".name"} onChange={changeIngredientName}>
         </input>
         <input type="text" className="ingredientAmount" key={props.id + ".amount"} onChange={changeIngredientAmount}>
         </input>
+        <span> </span>
       </div>
     );
   }  
