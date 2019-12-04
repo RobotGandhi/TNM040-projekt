@@ -100,17 +100,45 @@ const NewRecipeStep2 = ({match}) => {
 
   let {from, to} = useParams();
 
-  const ingredientBlocks = [];
+  const IngredientBlock = (props) => {
+    console.log(props);
+    return(
+      <div>
+        <input type="text" className="ingredientName" key={props.id + ".name"} onChange={changeIngredientName}>
+        </input>
+        <input type="text" className="ingredientAmount" key={props.id + ".amount"} onChange={changeIngredientAmount}>
+        </input>
+      </div>
+    );
+  }  
 
+  const [ingredientCounter, setIngredientCounter] = useState(1);
+  const [ingredientBlocks, setIngredientBlocks] = useState([<IngredientBlock key={ingredientCounter} id={ingredientCounter} />]);
   const [ingredients,setListOfIngredients] = useState([]);
-  const [ingredientCounter, setIngredientCounter] = useState(0);
   const [ingredientName, setIngredientName] = useState("");
   const [ingredientAmount, setIngredientAmount] = useState(0.0);
   const [ingredientUnit, setIngredientUnit] = useState("");
   const [ingredientID, setIngredientID] = useState(0);
 
-  function addIngredientToList (event) {
-    
+  function changeIngredientName(event) {
+    setIngredientName(event.target.value);
+  }
+
+  function changeIngredientAmount (event) {
+    setIngredientAmount(event.target.value);
+  }
+
+  function incrementIngredientCounter () {
+    setIngredientCounter(ingredientCounter + 1);
+  }
+
+  function incrementIngredientID () {
+    setIngredientID(ingredientID + 1);
+  }
+
+  function blocksAndIngredients () {
+    incrementIngredientID();
+    ingredientBlocks.push(<IngredientBlock key={"I" + ingredientCounter } id={ingredientCounter} />);
     setListOfIngredients([
       ...ingredients,
       {
@@ -120,36 +148,13 @@ const NewRecipeStep2 = ({match}) => {
         id: ingredientID
       }
     ])
+
+    incrementIngredientCounter();
+
   }
 
-  function incrementBlocks (event) {
-    setIngredientCounter(ingredientCounter + 1);
-    console.log(ingredients);
-  };
 
-  function changeIngredientName(event) {
-    setIngredientName(event.target.value);
-  }
-
-  function blocksAndIngredients (event) {
-    incrementBlocks();
-    addIngredientToList();
-  }
-
-  const IngredientBlock = () => {
-    return(
-      <div>
-        <input type="text" className="ingredientName" key={ingredientCounter} value={ingredientName} onChange={changeIngredientName}>
-        </input>
-        <input type="text" className="ingredientAmount">
-        </input>
-      </div>
-    );
-  }  
-
-  for(let i = 0; i < ingredientCounter; i++ ) {
-    ingredientBlocks.push(<IngredientBlock key={ingredientCounter}/>);
-  }
+  
   
   //Modal handling
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -163,6 +168,8 @@ const NewRecipeStep2 = ({match}) => {
     setIsOpen(false);
   }
 
+  console.log(ingredients);
+  
   return(
     <div>
       <button onClick={blocksAndIngredients}>
@@ -170,7 +177,6 @@ const NewRecipeStep2 = ({match}) => {
       </button>
       <div>
         {ingredientBlocks}
-        
       </div>
       <Link to={"/stepthree/" + from + "/" + to}>
         <button>Save</button>
