@@ -99,8 +99,10 @@ function App() {
 const NewRecipeStep2 = ({match}) => {
 
   let {from, to} = useParams();
+  let convert = require('convert-units');
 
   let convertFrom = {from};
+  console.log(convertFrom.from);
   let convertTo = {to}; 
 
   const IngredientBlock = (props) => {
@@ -110,29 +112,53 @@ const NewRecipeStep2 = ({match}) => {
         </input>
         <input type="text" className="ingredientAmount" key={props.id + ".amount"} onChange={changeIngredientAmount}>
         </input>
-        <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
-          <option value="oz">Ounces</option>
-          <option value="lb">Pounds</option>
-          <option value="fl-oz">Fluid Ounces</option>
-          <option value="cup">Cups</option>
-          <option value="pnt">Pints</option>
-          <option value="qt">Quarts</option>
-          <option value="gal">Gallons</option>
-        </select>
-        <span> To </span>
-        <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
-          <option value="mg"> Milligrams </option>
-          <option value="g"> Grams </option>
-          <option value="kg"> Kilograms </option>
-          <option value="ml"> Milliliters </option>
-          <option value="dl"> Deciliters </option>
-          <option value="l"> Liters </option>
-        </select>
+        {convertFrom.from === "US-Custom" &&
+              <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
+                <option value="oz">Ounces</option>
+                <option value="lb">Pounds</option>
+                <option value="fl-oz">Fluid Ounces</option>
+                <option value="cup">Cups</option>
+                <option value="pnt">Pints</option>
+                <option value="qt">Quarts</option>
+                <option value="gal">Gallons</option>
+              </select>}
+              {convertFrom.from === "Metric" &&
+              <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
+                <option value="mg">Milligrams</option>
+                <option value="g">Grams</option>
+                <option value="kg">Kilograms</option>
+                <option value="ml">Milliliters</option>
+                <option value="dl">Deciliters</option>
+                <option value="l">Liters</option>
+              </select>}
+              
+              <span> To </span>
+              {convertTo.to === "US-Custom" &&
+              <select value={convertToUnit} className="dropdown" onChange={changeConvertToUnit}>
+                <option value="oz">Ounces</option>
+                <option value="lb">Pounds</option>
+                <option value="fl-oz">Fluid Ounces</option>
+                <option value="cup">Cups</option>
+                <option value="pnt">Pints</option>
+                <option value="qt">Quarts</option>
+                <option value="gal">Gallons</option>
+              </select>}
+              {convertTo.to === "Metric" &&
+              <select value={convertToUnit} className="dropdown" onChange={changeConvertToUnit}>
+                <option value="mg">Milligrams</option>
+                <option value="g">Grams</option>
+                <option value="kg">Kilograms</option>
+                <option value="ml">Milliliters</option>
+                <option value="dl">Deciliters</option>
+                <option value="l">Liters</option>
+              </select>}
       </div>
     );
   }  
 
   const [convertFromUnit, setConvertFromUnit] = useState("oz");
+  const [convertToUnit, setConvertToUnit] = useState("mg");
+  const [conversionResult, setConversionResult] = useState("0");
 
   const [ingredientCounter, setIngredientCounter] = useState(1);
   const [ingredientBlocks, setIngredientBlocks] = useState([<IngredientBlock key={ingredientCounter} id={ingredientCounter} />]);
@@ -162,7 +188,17 @@ const NewRecipeStep2 = ({match}) => {
     setConvertFromUnit(event.target.value);
   }
 
+  function changeConvertToUnit(event) {
+    setConvertToUnit(event.target.value);
+  }
+
+  function doConvert () {
+    setConversionResult(convert(ingredientAmount).from(convertFromUnit).to(convertToUnit));
+  }
+
   function blocksAndIngredients () {
+    //doConvert();
+
     incrementIngredientID();
     ingredientBlocks.push(<IngredientBlock key={"I" + ingredientCounter } id={ingredientCounter} />);
     setListOfIngredients([
@@ -171,6 +207,8 @@ const NewRecipeStep2 = ({match}) => {
         name: ingredientName,
         amount: ingredientAmount,
         unitFrom: convertFromUnit,
+        unitTo: convertToUnit,
+        conversionResult: convert(ingredientAmount).from(convertFromUnit).to(convertToUnit),
         id: ingredientID
       }
     ])
@@ -195,6 +233,7 @@ const NewRecipeStep2 = ({match}) => {
   }
 
   console.log(ingredients);
+  console.log(conversionResult);
   
   return(
     <div>
