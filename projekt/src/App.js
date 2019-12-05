@@ -3,7 +3,7 @@ import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link, useParams} from "react-router-dom";
 import Modal from 'react-modal';
 
-let recipeList = [];
+let recipieList = [];
 
 const Green = (props) => {
   return(
@@ -92,11 +92,12 @@ function App() {
   );
 }
 
-const NewRecipeStep2 = ({match}) => {
+const NewRecipeStep2 = () => {
 
   let {from, to, name} = useParams();
   let convert = require('convert-units'); 
 
+  // Probem: Dropdown renderas inte om förräns man lägger till ett till ingrediensblock. State uppdateras dock korrekt.
   const IngredientBlock = (props) => {
     return(
       <div>
@@ -161,7 +162,6 @@ const NewRecipeStep2 = ({match}) => {
   const [ingredients,setListOfIngredients] = useState([]);
   const [ingredientName, setIngredientName] = useState("");
   const [ingredientAmount, setIngredientAmount] = useState(0.0);
-  const [ingredientUnit, setIngredientUnit] = useState("");
   const [ingredientID, setIngredientID] = useState(0);
 
   function changeIngredientName(event) {
@@ -198,7 +198,7 @@ const NewRecipeStep2 = ({match}) => {
   function blocksAndIngredients () {
 
     incrementIngredientID();
-    ingredientBlocks.push(<IngredientBlock key={"I" + ingredientCounter } id={ingredientCounter} />);
+    ingredientBlocks.push(<IngredientBlock key={"K" + ingredientCounter } id={ingredientCounter} />);
     setListOfIngredients([
       ...ingredients,
       {
@@ -225,10 +225,12 @@ const NewRecipeStep2 = ({match}) => {
       name: recipieName,
       ingredients: ingredients,
       description: recipieDescription,
-      ID: recipieID  
+      recipieID: recipieID,
+      deleted: false
+
     }
 
-    recipeList.push(recipie);
+    recipieList.push(recipie);
   }
 
   function addLastIngredient () {
@@ -262,7 +264,6 @@ const NewRecipeStep2 = ({match}) => {
       <div>
         {ingredientBlocks}
       </div>
-        {/*<button onClick = {openModal}>Save</button>*/}
         <button onClick={addLastIngredient}>Save</button>
         <Modal className = "descriptionModal"
         isOpen = {modalIsOpen}
@@ -285,25 +286,51 @@ const NewRecipeStep2 = ({match}) => {
   );
 }
 
-const ListOfRecipies = ({match}) => {
-  let localRecipieList = []; 
-  localRecipieList = recipeList;
+
+
+const ListOfRecipies = () => {
+  const [localRecipieList, setLocalRecipieList] = useState(recipieList); 
   console.log(localRecipieList);
+
   return (
     <div>
       <h1>List of recipies </h1>
       {localRecipieList.map(recipie => <DisplayRecipies data={recipie} />)}
     </div>
   )
-}
+  
+  }
 
-const DisplayRecipies = (props) => {
-  console.log(props);
-  return(
-    <div>
-      {props.data.name}
-    </div>
-  ) 
+  // Problem: Deletefunktion för recept behövs
+
+  /*function deleteRecipie(id) {
+    setLocalRecipieList(props.data.filter(r => r.recipieID !== id));
+  }*/
+
+  const DisplayRecipies = (props) => {
+    console.log(props);
+    return(
+      <div>
+        <h1>{props.data.name}</h1>
+        <span>Ingredients: </span>
+        <ul>
+          {props.data.ingredients.map(ingredient => <DisplayIngredients data={ingredient}/>)}
+        </ul>
+        <h2>Description: </h2>
+        <span>{props.data.description}</span>
+        <button>Delete</button>
+      </div>
+    ) 
+  }
+
+const DisplayIngredients = (props) => {
+  return (
+    <li>
+      <span>{props.data.conversionResult} </span>
+      <span>{props.data.unitTo} </span>
+      <span>{props.data.name}</span>
+    </li>
+  )
 }
 
 //Preliminär lösning. hade varit bättre med en modal
