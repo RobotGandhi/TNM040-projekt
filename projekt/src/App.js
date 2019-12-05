@@ -3,11 +3,7 @@ import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link, useParams} from "react-router-dom";
 import Modal from 'react-modal';
 
-let recipeMasterList = [];
-
-function addToMasterList(recipe){
-  recipeMasterList.push(recipe);
-}
+let recipeList = [];
 
 const Green = (props) => {
   return(
@@ -48,7 +44,7 @@ function NavBar(props){
     <div className="navBar">
     {/*Recipes,
     Link is given the class selected if selection state is true(if button was clicked)*/}
-    <Link to ="/green" className={`navButton ${selection1 ? 'isSelected' : ''}`} onClick={button1Selected} >
+    <Link to ="/listOfRecipies" className={`navButton ${selection1 ? 'isSelected' : ''}`} onClick={button1Selected} >
       <div>
         G
       </div>
@@ -77,13 +73,13 @@ function App() {
     <Router>
       <div>
         <Switch> 
-          <Route path="/green">
-            <Green/>
+          <Route path="/listOfRecipies">
+            <ListOfRecipies/>
           </Route>
           <Route path="/stepone">
             <NewRecipeStep1/>
           </Route>
-          <Route path="/steptwo/:from/:to">
+          <Route path="/steptwo/:from/:to/:name">
             <NewRecipeStep2/>
           </Route>
           <Route path="/">
@@ -98,12 +94,8 @@ function App() {
 
 const NewRecipeStep2 = ({match}) => {
 
-  let {from, to} = useParams();
-  let convert = require('convert-units');
-
-  let convertFrom = {from};
-  console.log(convertFrom.from);
-  let convertTo = {to}; 
+  let {from, to, name} = useParams();
+  let convert = require('convert-units'); 
 
   const IngredientBlock = (props) => {
     return(
@@ -112,7 +104,7 @@ const NewRecipeStep2 = ({match}) => {
         </input>
         <input type="text" className="ingredientAmount" key={props.id + ".amount"} onChange={changeIngredientAmount}>
         </input>
-        {convertFrom.from === "US-Custom" &&
+        {from === "US-Custom" &&
               <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
                 <option value="oz">Ounces</option>
                 <option value="lb">Pounds</option>
@@ -122,7 +114,7 @@ const NewRecipeStep2 = ({match}) => {
                 <option value="qt">Quarts</option>
                 <option value="gal">Gallons</option>
               </select>}
-              {convertFrom.from === "Metric" &&
+              {from === "Metric" &&
               <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
                 <option value="mg">Milligrams</option>
                 <option value="g">Grams</option>
@@ -133,7 +125,7 @@ const NewRecipeStep2 = ({match}) => {
               </select>}
               
               <span> To </span>
-              {convertTo.to === "US-Custom" &&
+              {to === "US-Custom" &&
               <select value={convertToUnit} className="dropdown" onChange={changeConvertToUnit}>
                 <option value="oz">Ounces</option>
                 <option value="lb">Pounds</option>
@@ -143,7 +135,7 @@ const NewRecipeStep2 = ({match}) => {
                 <option value="qt">Quarts</option>
                 <option value="gal">Gallons</option>
               </select>}
-              {convertTo.to === "Metric" &&
+              {to === "Metric" &&
               <select value={convertToUnit} className="dropdown" onChange={changeConvertToUnit}>
                 <option value="mg">Milligrams</option>
                 <option value="g">Grams</option>
@@ -155,6 +147,10 @@ const NewRecipeStep2 = ({match}) => {
       </div>
     );
   }  
+
+  const [recipieName, setRecipieName] = useState(name);
+  const [recipieDescription, setRecipieDescription] = useState("");
+  const [recipieID, setRecipieID] = useState(1);
 
   const [convertFromUnit, setConvertFromUnit] = useState("oz");
   const [convertToUnit, setConvertToUnit] = useState("mg");
@@ -192,12 +188,14 @@ const NewRecipeStep2 = ({match}) => {
     setConvertToUnit(event.target.value);
   }
 
-  function doConvert () {
-    setConversionResult(convert(ingredientAmount).from(convertFromUnit).to(convertToUnit));
+  function changeIngredientName (event) {
+    setIngredientName(event.target.value);
   }
 
+  function incrementRecipieID () {
+    setRecipieID(recipieID + 1);
+  }
   function blocksAndIngredients () {
-    //doConvert();
 
     incrementIngredientID();
     ingredientBlocks.push(<IngredientBlock key={"I" + ingredientCounter } id={ingredientCounter} />);
@@ -217,8 +215,27 @@ const NewRecipeStep2 = ({match}) => {
 
   }
 
+  function changeDescription (event) {
+    setRecipieDescription(event.target.value);
+  }
 
-  
+
+  function createRecipie () {
+    let recipie = {
+      name: recipieName,
+      ingredients: ingredients,
+      description: recipieDescription,
+      ID: recipieID  
+    }
+
+    recipeList.push(recipie);
+  }
+
+  function addLastIngredient () {
+    blocksAndIngredients();
+    openModal();
+  }
+
   
   //Modal handling
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -237,32 +254,56 @@ const NewRecipeStep2 = ({match}) => {
   
   return(
     <div>
+      <input type="text" placeholder={name} onChange={changeIngredientName}>
+      </input>
       <button onClick={blocksAndIngredients}>
         +
       </button>
       <div>
         {ingredientBlocks}
       </div>
-      <Link to={"/stepthree/" + from + "/" + to}>
-        <button>Save</button>
-      </Link>
-        <button onClick = {openModal}>Save</button>
+        {/*<button onClick = {openModal}>Save</button>*/}
+        <button onClick={addLastIngredient}>Save</button>
         <Modal className = "descriptionModal"
         isOpen = {modalIsOpen}
         onAfterOpen = {afterOpenModal}
         onRequestClose = {closeModal}
         contentLabel = "Example Modal">
           <div>
-            <h3>Recipe name</h3>
+            <h3>{recipieName}</h3>
             <form>
-              <textarea className ="descriptionField"/>
+              <textarea type="text" onChange={changeDescription} className ="descriptionField"/>
             </form>
             <div onClick = {closeModal} className = "buttonModal" >Back</div>
-            <div className = "buttonModal">Save</div>
+            <Link to={"/listOfRecipies"}>
+              <button className = "buttonModal" onClick={createRecipie}>Save</button>
+            </Link>
+              
           </div>
         </Modal>
     </div>
   );
+}
+
+const ListOfRecipies = ({match}) => {
+  let localRecipieList = []; 
+  localRecipieList = recipeList;
+  console.log(localRecipieList);
+  return (
+    <div>
+      <h1>List of recipies </h1>
+      {localRecipieList.map(recipie => <DisplayRecipies data={recipie} />)}
+    </div>
+  )
+}
+
+const DisplayRecipies = (props) => {
+  console.log(props);
+  return(
+    <div>
+      {props.data.name}
+    </div>
+  ) 
 }
 
 //Preliminär lösning. hade varit bättre med en modal
@@ -282,7 +323,7 @@ const NewRecipeStep3 = () => {
 const NewRecipeStep1 = () => {
   let convert = require('convert-units');
 
-  const [recipieName, setRecipieName] = useState("");
+  const [recipieName, setRecipieName] = useState("Recipie");
   const [convertFrom, setConvertFrom] = useState("US-Custom");
   const [convertTo, setConvertTo] = useState("Metric");
 
@@ -313,7 +354,7 @@ const NewRecipeStep1 = () => {
           <option value="US-Custom">US-Custom</option>
         </select>
         
-        <Link to={"/steptwo/" + convertFrom + "/" + convertTo}>
+        <Link to={"/steptwo/" + convertFrom + "/" + convertTo + "/" + recipieName}>
           <div className = "button">   
             Create 
           </div>
