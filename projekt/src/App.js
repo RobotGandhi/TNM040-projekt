@@ -328,50 +328,6 @@ const ListOfRecipies = () => {
   )
   }
 
-  // Problem: Deletefunktion för recept behövs
-
-  /**/
-
-  const DisplayRecipies = (props) => {
-    console.log(props);
-    return(
-      <div>
-        <h1>{props.data.name}</h1>
-        
-        <ul>
-          {props.data.ingredients.map(ingredient => <DisplayIngredients data={ingredient}/>)}
-        </ul>
-        
-        <span>{props.data.description}</span>
-        <button>Delete</button>
-      </div>
-    ) 
-  }
-
-const DisplayIngredients = (props) => {
-  return (
-    <li>
-      <span>{props.data.conversionResult} </span>
-      <span>{props.data.unitTo} </span>
-      <span>{props.data.name}</span>
-    </li>
-  )
-}
-
-//Preliminär lösning. hade varit bättre med en modal
-const NewRecipeStep3 = () => {
-  return(
-    <div>
-      <h2>Namn på recept</h2>
-      <form>
-        <input></input>
-      </form>
-        <button>Back</button>
-        <button>Save</button>
-    </div>
-  )
-}
-
 const NewRecipeStep1 = () => {
   let convert = require('convert-units');
 
