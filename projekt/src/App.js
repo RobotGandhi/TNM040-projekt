@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Switch, Route, Link, useParams} from "react-rou
 import Modal from 'react-modal';
 
 let recipieList = [];
+let GlobalRecipieID = 0;
 
 const Green = (props) => {
   return(
@@ -127,7 +128,7 @@ const NewRecipeStep2 = () => {
               
               <span> To </span>
               {to === "US-Custom" &&
-              <select value={convertToUnit} className="dropdown" onChange={changeConvertToUnit}>
+              <select  value={convertToUnit} className="dropdown" onChange={changeConvertToUnit}>
                 <option value="oz">Ounces</option>
                 <option value="lb">Pounds</option>
                 <option value="fl-oz">Fluid Ounces</option>
@@ -137,7 +138,7 @@ const NewRecipeStep2 = () => {
                 <option value="gal">Gallons</option>
               </select>}
               {to === "Metric" &&
-              <select value={convertToUnit} className="dropdown" onChange={changeConvertToUnit}>
+              <select Id="dropdown1" value={convertToUnit} className="dropdown" onChange={changeConvertToUnit}>
                 <option value="mg">Milligrams</option>
                 <option value="g">Grams</option>
                 <option value="kg">Kilograms</option>
@@ -181,20 +182,18 @@ const NewRecipeStep2 = () => {
   }
 
   function changeConvertFromUnit(event) {
-    setConvertFromUnit(event.target.value);
+    setConvertFromUnit(event.target.value);    
   }
 
   function changeConvertToUnit(event) {
     setConvertToUnit(event.target.value);
+    console.log(event.target.value);  
   }
 
   function changeIngredientName (event) {
     setIngredientName(event.target.value);
   }
 
-  function incrementRecipieID () {
-    setRecipieID(recipieID + 1);
-  }
   function blocksAndIngredients () {
 
     incrementIngredientID();
@@ -221,16 +220,19 @@ const NewRecipeStep2 = () => {
 
 
   function createRecipie () {
+    GlobalRecipieID++;
+
     let recipie = {
       name: recipieName,
       ingredients: ingredients,
       description: recipieDescription,
-      recipieID: recipieID,
+      recipieID: GlobalRecipieID,
       deleted: false
 
     }
 
     recipieList.push(recipie);
+    
   }
 
   function addLastIngredient () {
@@ -253,7 +255,9 @@ const NewRecipeStep2 = () => {
 
   console.log(ingredients);
   console.log(conversionResult);
-  
+  //console.log(document.getElementById("dropdown1").option.value);
+  //document.getElementById("dropdown1").value = convertFromUnit;
+
   return(
     <div>
       <input type="text" placeholder={name} onChange={changeIngredientName}>
@@ -292,31 +296,52 @@ const ListOfRecipies = () => {
   const [localRecipieList, setLocalRecipieList] = useState(recipieList); 
   console.log(localRecipieList);
 
+  function deleteRecipie(event) {
+    console.log(event.target.id);
+    let id = event.target.id;
+    const temp = localRecipieList.filter(r => r.recipieID != event.target.id);
+    console.log(temp);
+    setLocalRecipieList(temp);
+    recipieList = localRecipieList;
+  }
+  
   return (
     <div>
       <h1>List of recipies </h1>
-      {localRecipieList.map(recipie => <DisplayRecipies data={recipie} />)}
+      {localRecipieList.map(recipie => 
+        <div id={recipie.recipieID}>  
+          <h1>{recipie.name}</h1>
+          <span>Ingredients:</span>
+          {recipie.ingredients.map(ingredient => 
+          <ul>
+            <span>{ingredient.conversionResult} </span>
+            <span>{ingredient.unitTo} </span>
+            <span>{ingredient.name}</span>
+          </ul>
+          )}
+          <h2>Description: </h2>
+          <span>{recipie.description}</span>
+          <button id={recipie.recipieID} onClick={deleteRecipie}>Delete </button>
+        </div>
+      )}
     </div>
   )
-  
   }
 
   // Problem: Deletefunktion för recept behövs
 
-  /*function deleteRecipie(id) {
-    setLocalRecipieList(props.data.filter(r => r.recipieID !== id));
-  }*/
+  /**/
 
   const DisplayRecipies = (props) => {
     console.log(props);
     return(
       <div>
         <h1>{props.data.name}</h1>
-        <span>Ingredients: </span>
+        
         <ul>
           {props.data.ingredients.map(ingredient => <DisplayIngredients data={ingredient}/>)}
         </ul>
-        <h2>Description: </h2>
+        
         <span>{props.data.description}</span>
         <button>Delete</button>
       </div>
