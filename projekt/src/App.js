@@ -2,17 +2,11 @@ import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
 import Modal from 'react-modal';
+import ListOfRecipes from './SavedRecipes';
+import NewRecipeStep1 from './NewRecipeStep1';
+import NewRecipeStep2 from './NewRecipeStep2';
+import QuickConvert from './QuickConvert';
 
-let recipieList = [];
-let GlobalRecipieID = 0;
-
-const Green = (props) => {
-  return (
-    <div className="green">
-      G
-    </div>
-  );
-}
 
 function NavBar(props) {
   //states for what navbar button is selected
@@ -45,7 +39,7 @@ function NavBar(props) {
       <div className="navBar">
         {/*Recipes,
     Link is given the class selected if selection state is true(if button was clicked)*/}
-        <Link to="/listOfRecipies" className={`navButton ${selection1 ? 'isSelected' : ''}`} onClick={button1Selected} >
+        <Link to="/listOfRecipes" className={`navButton ${selection1 ? 'isSelected' : ''}`} onClick={button1Selected} >
           <div>
             G
       </div>
@@ -70,438 +64,45 @@ function NavBar(props) {
 }
 
 function App() {
+
+  const [recipeList, setRecipeList] = useState([]);
+  const [temporaryValues, setTemporaryValues] = useState();
+
+  //callback functions 
+  function addRecipe(newRecipe) {
+    setRecipeList(recipeList.push(newRecipe));
+  }
+
+  function storeTemporaryValues (tempArr) {
+    setTemporaryValues(tempArr);
+  }
+
+  
+
   return (
     <Router>
       <div>
         <Switch>
-          <Route path="/listOfRecipies">
-            <ListOfRecipies />
+          <Route path="/listOfRecipes">
+            <ListOfRecipes recipeList={recipeList}/>
           </Route>
           <Route path="/stepone">
-            <NewRecipeStep1 />
+            <NewRecipeStep1 callback={storeTemporaryValues}/>
           </Route>
           <Route path="/steptwo/:from/:to/:name">
-            <NewRecipeStep2 />
+            <NewRecipeStep2 data={temporaryValues} callback={addRecipe}/>
           </Route>
           <Route path="/">
             <QuickConvert />
           </Route>
+          
         </Switch>
       </div>
-      <NavBar />
+      <NavBar/>
     </Router>
   );
 }
 
-const NewRecipeStep2 = () => {
-
-  let { from, to, name } = useParams();
-  let convert = require('convert-units');
-
-  // Probem: Dropdown renderas inte om förräns man lägger till ett till ingrediensblock. State uppdateras dock korrekt.
-  const IngredientBlock = (props) => {
-    return (
-      <div>
-        <input type="text" className="ingredientName" key={props.id + ".name"} onChange={changeIngredientName}>
-        </input>
-        <input type="text" className="ingredientAmount" key={props.id + ".amount"} onChange={changeIngredientAmount}>
-        </input>
-        {from === "US-Custom" &&
-              <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
-                <option value="oz">Ounces</option>
-                <option value="lb">Pounds</option>
-                <option value="fl-oz">Fluid Ounces</option>
-                <option value="cup">Cups</option>
-                <option value="pnt">Pints</option>
-                <option value="qt">Quarts</option>
-                <option value="gal">Gallons</option>
-              </select>}
-              {from === "Metric" &&
-              <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
-                <option value="mg">Milligrams</option>
-                <option value="g">Grams</option>
-                <option value="kg">Kilograms</option>
-                <option value="ml">Milliliters</option>
-                <option value="dl">Deciliters</option>
-                <option value="l">Liters</option>
-              </select>}
-              
-              <span> To </span>
-              {to === "US-Custom" &&
-              <select  value={convertToUnit} className="dropdown" onChange={changeConvertToUnit}>
-                <option value="oz">Ounces</option>
-                <option value="lb">Pounds</option>
-                <option value="fl-oz">Fluid Ounces</option>
-                <option value="cup">Cups</option>
-                <option value="pnt">Pints</option>
-                <option value="qt">Quarts</option>
-                <option value="gal">Gallons</option>
-              </select>}
-              {to === "Metric" &&
-              <select Id="dropdown1" value={convertToUnit} className="dropdown" onChange={changeConvertToUnit}>
-                <option value="mg">Milligrams</option>
-                <option value="g">Grams</option>
-                <option value="kg">Kilograms</option>
-                <option value="ml">Milliliters</option>
-                <option value="dl">Deciliters</option>
-                <option value="l">Liters</option>
-              </select>}
-      </div>
-    );
-  }
-
-  const [recipieName, setRecipieName] = useState(name);
-  const [recipieDescription, setRecipieDescription] = useState("");
-  const [recipieID, setRecipieID] = useState(1);
-
-  const [convertFromUnit, setConvertFromUnit] = useState("oz");
-  const [convertToUnit, setConvertToUnit] = useState("mg");
-  const [conversionResult, setConversionResult] = useState("0");
-
-  const [ingredientCounter, setIngredientCounter] = useState(1);
-  const [ingredientBlocks, setIngredientBlocks] = useState([<IngredientBlock key={ingredientCounter} id={ingredientCounter} />]);
-  const [ingredients, setListOfIngredients] = useState([]);
-  const [ingredientName, setIngredientName] = useState("");
-  const [ingredientAmount, setIngredientAmount] = useState(0.0);
-  const [ingredientID, setIngredientID] = useState(0);
-
-  function changeIngredientName(event) {
-    setIngredientName(event.target.value);
-  }
-
-  function changeIngredientAmount(event) {
-    setIngredientAmount(event.target.value);
-  }
-
-  function incrementIngredientCounter() {
-    setIngredientCounter(ingredientCounter + 1);
-  }
-
-  function incrementIngredientID() {
-    setIngredientID(ingredientID + 1);
-  }
-
-  function changeConvertFromUnit(event) {
-    setConvertFromUnit(event.target.value);    
-  }
-
-  function changeConvertToUnit(event) {
-    setConvertToUnit(event.target.value);
-    console.log(event.target.value);  
-  }
-
-  function changeIngredientName(event) {
-    setIngredientName(event.target.value);
-  }
-
-  function blocksAndIngredients () {
-
-    incrementIngredientID();
-    ingredientBlocks.push(<IngredientBlock key={"K" + ingredientCounter} id={ingredientCounter} />);
-    setListOfIngredients([
-      ...ingredients,
-      {
-        name: ingredientName,
-        amount: ingredientAmount,
-        unitFrom: convertFromUnit,
-        unitTo: convertToUnit,
-        conversionResult: convert(ingredientAmount).from(convertFromUnit).to(convertToUnit),
-        id: ingredientID
-      }
-    ])
-
-    incrementIngredientCounter();
-
-  }
-
-  function changeDescription(event) {
-    setRecipieDescription(event.target.value);
-  }
-
-
-  function createRecipie () {
-    GlobalRecipieID++;
-
-    let recipie = {
-      name: recipieName,
-      ingredients: ingredients,
-      description: recipieDescription,
-      recipieID: GlobalRecipieID,
-      deleted: false
-
-    }
-
-    recipieList.push(recipie);
-    
-  }
-
-  function addLastIngredient() {
-    blocksAndIngredients();
-    openModal();
-  }
-
-
-  //Modal handling
-  const [modalIsOpen, setIsOpen] = useState(false);
-  function openModal() {
-    setIsOpen(true);
-  }
-  function afterOpenModal() {
-    //References are synced and can be accesssed here.
-  }
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  console.log(ingredients);
-  console.log(conversionResult);
-  //console.log(document.getElementById("dropdown1").option.value);
-  //document.getElementById("dropdown1").value = convertFromUnit;
-
-  return(
-    <div>
-      <input type="text" placeholder={name} onChange={changeIngredientName}>
-      </input>
-      <button onClick={blocksAndIngredients}>
-        +
-      </button>
-      <div>
-        {ingredientBlocks}
-      </div>
-      <button onClick={addLastIngredient}>Save</button>
-      <Modal className="descriptionModal"
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        contentLabel="Example Modal">
-        <div>
-          <h3>{recipieName}</h3>
-          <form>
-            <textarea type="text" onChange={changeDescription} className="descriptionField" />
-          </form>
-          <div onClick={closeModal} className="buttonModal" >Back</div>
-          <Link to={"/listOfRecipies"}>
-            <button className="buttonModal" onClick={createRecipie}>Save</button>
-          </Link>
-
-        </div>
-      </Modal>
-    </div>
-  );
-}
-
-
-
-const ListOfRecipies = () => {
-  const [localRecipieList, setLocalRecipieList] = useState(recipieList);
-  console.log(localRecipieList);
-
-  function deleteRecipie(event) {
-    console.log(event.target.id);
-    let id = event.target.id;
-    const temp = localRecipieList.filter(r => r.recipieID != event.target.id);
-    console.log(temp);
-    setLocalRecipieList(temp);
-    recipieList = localRecipieList;
-  }
-  
-  return (
-    <div>
-      <h1>List of recipies </h1>
-      {localRecipieList.map(recipie => 
-        <div id={recipie.recipieID}>  
-          <h1>{recipie.name}</h1>
-          <span>Ingredients:</span>
-          {recipie.ingredients.map(ingredient => 
-          <ul>
-            <span>{ingredient.conversionResult} </span>
-            <span>{ingredient.unitTo} </span>
-            <span>{ingredient.name}</span>
-          </ul>
-          )}
-          <h2>Description: </h2>
-          <span>{recipie.description}</span>
-          <button id={recipie.recipieID} onClick={deleteRecipie}>Delete </button>
-        </div>
-      )}
-    </div>
-  )
-  }
-
-const NewRecipeStep1 = () => {
-  let convert = require('convert-units');
-
-  const [recipieName, setRecipieName] = useState("Recipie");
-  const [convertFrom, setConvertFrom] = useState("US-Custom");
-  const [convertTo, setConvertTo] = useState("Metric");
-
-  function changeRecipieName(event) {
-    setRecipieName(event.target.value);
-  }
-  function changeConvertFrom(event) {
-    setConvertFrom(event.target.value);
-  }
-  function changeConvertTo(event) {
-    setConvertTo(event.target.value);
-  }
-  return (
-
-    <div>
-      <div className="main">
-        <input type="text" className="recipieName" placeholder="Name of recipie..." onChange={changeRecipieName}>
-        </input>
-        <p>From</p>
-        <select value={convertFrom} className="button" onChange={changeConvertFrom}>
-          <option value="US-Custom">US-Custom</option>
-          <option value="Metric">Metric</option>
-        </select>
-
-        <p>To</p>
-        <select value={convertTo} className="button" onChange={changeConvertTo}>
-          <option value="Metric">Metric</option>
-          <option value="US-Custom">US-Custom</option>
-        </select>
-
-        <Link to={"/steptwo/" + convertFrom + "/" + convertTo + "/" + recipieName}>
-          <div className="button">
-            Create
-          </div>
-        </Link>
-      </div>
-    </div>
-  )
-
-}
-
-/*function Ingredient(){
-  return(       
-    <div className="ingredientBox">
-      <div className = "button"> System </div>
-      <div className = "button"> System </div>
-    </div>
-  )
-}
-return(
-<input type="text" id="namnge" placeholder={b} onChange={changeInput2} />
-)
-}*/
-
-
-const QuickConvert = props => {
-  let convert = require('convert-units');
-
-  const [convertFrom, setConvertFrom] = useState("US-Custom");
-  const [convertTo, setConvertTo] = useState("Metric");
-  const [convertFromUnit, setConvertFromUnit] = useState("oz");
-  const [convertToUnit, setConvertToUnit] = useState("mg");
-  const [conversionAmount, setConversionAmount] = useState("0");
-  const [conversionResult, setConversionResult] = useState("0");
-
-  function changeConvertFrom(event) {
-    setConvertFrom(event.target.value);
-  }
-  function changeConvertTo(event) {
-    setConvertTo(event.target.value);
-  }
-  function changeConvertFromUnit(event) {
-    setConvertFromUnit(event.target.value);
-  }
-  function changeConvertToUnit(event) {
-    setConvertToUnit(event.target.value);
-  }
-  function changeConversionAmount(event) {
-    setConversionAmount(event.target.value);
-  }
-  function doConvert() {
-    setConversionResult(convert(conversionAmount).from(convertFromUnit).to(convertToUnit));
-  }
-  function doSwap() {
-    setConvertTo(convertFrom);
-    setConvertFrom(convertTo);
-    setConvertToUnit(convertFromUnit);
-    setConvertFromUnit(convertToUnit);
-  }
-
-  return (
-    <div className="green">
-      <div className="super">
-        <h1 className="header">Quick Convert</h1>
-        <div className="box">
-          <div className="box-in-box">
-            <div className="quickConvert">
-              <div className="daddyCool">
-                <input type="text" className="textInput" onChange={changeConversionAmount}></input>
-                <div className="child2">
-                  {convertFrom === "US-Custom" &&
-                    <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
-                      <option value="oz">Ounces</option>
-                      <option value="lb">Pounds</option>
-                      <option value="fl-oz">Fluid Ounces</option>
-                      <option value="cup">Cups</option>
-                      <option value="pnt">Pints</option>
-                      <option value="qt">Quarts</option>
-                      <option value="gal">Gallons</option>
-                    </select>}
-                  {convertFrom === "Metric" &&
-                    <select value={convertFromUnit} className="dropdown" onChange={changeConvertFromUnit}>
-                      <option value="mg">Milligrams</option>
-                      <option value="g">Grams</option>
-                      <option value="kg">Kilograms</option>
-                      <option value="ml">Milliliters</option>
-                      <option value="dl">Deciliters</option>
-                      <option value="l">Liters</option>
-                    </select>}
-                </div>
-                <div className="button" onClick={doSwap}>Swap</div>
-                <input type="text" className="textInputGray" value={conversionResult} disabled></input>
-                <div className="child2">
-                  {convertTo === "US-Custom" &&
-                    <select value={convertToUnit} className="dropdown" onChange={changeConvertToUnit}>
-                      <option value="oz">Ounces</option>
-                      <option value="lb">Pounds</option>
-                      <option value="fl-oz">Fluid Ounces</option>
-                      <option value="cup">Cups</option>
-                      <option value="pnt">Pints</option>
-                      <option value="qt">Quarts</option>
-                      <option value="gal">Gallons</option>
-                    </select>}
-                  {convertTo === "Metric" &&
-                    <select value={convertToUnit} className="dropdown" onChange={changeConvertToUnit}>
-                      <option value="mg">Milligrams</option>
-                      <option value="g">Grams</option>
-                      <option value="kg">Kilograms</option>
-                      <option value="ml">Milliliters</option>
-                      <option value="dl">Deciliters</option>
-                      <option value="l">Liters</option>
-                    </select>}
-                </div>
-              </div>
-              <div className="quickConvert">
-                <div className="fromToParent">
-                  <div>
-                    <h2 className="fromTo">From</h2>
-                    <select value={convertFrom} className="dropdown2" onChange={changeConvertFrom}>
-                      <option value="US-Custom">US-Custom</option>
-                      <option value="Metric">Metric</option>
-                    </select>
-                  </div>
-                  <div>
-                    <h2 className="fromTo">To</h2>
-                    <select value={convertTo} className="dropdown2" onChange={changeConvertTo}>
-                      <option value="Metric">Metric</option>
-                      <option value="US-Custom">US-Custom</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="convertButton" onClick={doConvert}>Convert!</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-};
 
 
 export default App;
