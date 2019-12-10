@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
+import Modal from 'react-modal';
 
 const NewRecipeStep2 = (props) => {
   
@@ -9,6 +10,11 @@ const NewRecipeStep2 = (props) => {
       name: props.temporaryValues.recipeName,
       ingredients: listOfIngredients
     };
+    let  ingredientName, ingredientAmount, convertFromUnit, convertToUnit, conversionResult, ingredientID;
+    let ingredientCounter = 0;
+
+    const [listOfIngredients, setListOfIngredients] = useState([]);
+    const [ingredientBlocks, setIngredientBlocks] = useState([]);
   
     // Probem: Dropdown renderas inte om förräns man lägger till ett till ingrediensblock. State uppdateras dock korrekt.
     const IngredientBlock = (props) => {
@@ -61,12 +67,55 @@ const NewRecipeStep2 = (props) => {
         </div>
       );
     }
+
+    function changeIngredientAmount(event) {
+      ingredientAmount = event.target.value;
+    }
   
+    function incrementIngredientID() {
+      ingredientID++;      
+    }
+  
+    function changeConvertFromUnit(event) {
+      convertFromUnit = event.target.value;
+    }
+  
+    function changeConvertToUnit(event) {
+      convertToUnit = event.target.value;
+    }
+  
+    function changeIngredientName(event) {
+      ingredientName = event.target.value;
+    }
+  
+  
+    function addIngredient () {
+      incrementIngredientID();
+      addIngredientData();
+      addIngredientBlock();
+    } 
+
+    function addIngredientData() {
+      let ingredient =
+      {
+        name: ingredientName,
+        amount: ingredientAmount,
+        unitFrom: convertFromUnit,
+        unitTo: convertToUnit,
+        conversionResult: convert(ingredientAmount).from(convertFromUnit).to(convertToUnit),
+        id: ingredientID
+      }
+      setListOfIngredients(listOfIngredients.push(ingredient));
+    }
+
+    function addIngredientBlock() {
+      setIngredientBlocks(ingredientBlocks.push(<IngredientBlock key={"K" + ingredientCounter} id={ingredientCounter} />));
+    }
     return(
       <div>
         <input type="text" placeholder={name} onChange={changeIngredientName}>
         </input>
-        <button onClick={blocksAndIngredients}>
+        <button onClick={addIngredient}>
           +
         </button>
         <div>
@@ -92,23 +141,8 @@ const NewRecipeStep2 = (props) => {
         </Modal>
       </div>
     );
-
-
-    function blocksAndIngredients () {
-
-      incrementIngredientID();
-      ingredientBlocks.push(<IngredientBlock key={"K" + ingredientCounter} id={ingredientCounter} />);
-      setListOfIngredients([
-        ...ingredients,
-        {
-          name: ingredientName,
-          amount: ingredientAmount,
-          unitFrom: convertFromUnit,
-          unitTo: convertToUnit,
-          conversionResult: convert(ingredientAmount).from(convertFromUnit).to(convertToUnit),
-          id: ingredientID
-        }
-      ])
 }
+
+
 
 export default NewRecipeStep2;

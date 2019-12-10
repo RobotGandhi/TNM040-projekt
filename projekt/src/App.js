@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
-import Modal from 'react-modal';
 import ListOfRecipes from './SavedRecipes';
 import NewRecipeStep1 from './NewRecipeStep1';
 import NewRecipeStep2 from './NewRecipeStep2';

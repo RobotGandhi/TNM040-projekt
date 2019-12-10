@@ -4,7 +4,7 @@ const ListOfRecipes = () => {
     
     return(
         <div>
-
+          
         </div>
     );
     
