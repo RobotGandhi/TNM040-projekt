@@ -26,7 +26,7 @@ const NewRecipeStep1 = (props) => {
     }
 
     function sendTempValues() {
-        props.storeTemporaryValues([recipeName, convertFrom, convertTo, recipeID]);
+        props.callback([recipeName, convertFrom, convertTo, recipeID]);
     }
 
     return (

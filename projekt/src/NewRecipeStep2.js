@@ -7,15 +7,21 @@ const NewRecipeStep2 = (props) => {
   let { from, to, name } = useParams();
   let convert = require('convert-units');
 
-  const [recipeName, setRecipeName] = useState(props.data.temporaryValues[0]);
+  const [recipeName, setRecipeName] = useState(props.data[0]);
+  console.log(recipeName)
   const [recipeDescription, setRecipeDescription] = useState("");
 
   const [convertFromUnit, setConvertFromUnit] = useState("oz");
   const [convertToUnit, setConvertToUnit] = useState("mg");
   const [conversionResult, setConversionResult] = useState("0");
 
-  const [ingredientCounter, setIngredientCounter] = useState(1);
-  const [ingredientBlocks, setIngredientBlocks] = useState([<IngredientBlock key={ingredientCounter} id={ingredientCounter} />]);
+  const [ingredientName, setIngredientName] = useState("");
+  const [ingredientAmount, setIngredientAmount] = useState(0.0);
+  const [ingredientID, setIngredientID] = useState(1);
+
+  const [ingredient, setIngredient] = useState();
+
+
   const [ingredients, setIngredients] = useState([{
     ingredientName: "",
     ingredientAmount: 0.0,
@@ -24,14 +30,10 @@ const NewRecipeStep2 = (props) => {
     conversionResult: 0.0,
     ingredientId: ingredientID
   }]);
-  const [ingredientName, setIngredientName] = useState("");
-  const [ingredientAmount, setIngredientAmount] = useState(0.0);
-  const [ingredientID, setIngredientID] = useState(1);
-
-  const [ingredient, setIngredient] = useState();
 
 
-  // Probem: Dropdown renderas inte om förräns man lägger till ett till ingrediensblock. State uppdateras dock korrekt.
+
+
   const IngredientBlock = (props) => {
     return (
       <div>
@@ -85,39 +87,25 @@ const NewRecipeStep2 = (props) => {
     );
   }
 
+  const [ingredientBlocks, setIngredientBlocks] = useState([<IngredientBlock key={ingredientID} />]);
+
   function changeIngredient(event) {
-    
-  }
+    let parent = event.target.parentElement;
+    console.log
 
-
-  function changeIngredientAmount(event) {
-    setIngredientAmount(event.target.value);
-  }
-
-  function incrementIngredientCounter() {
-    setIngredientCounter(ingredientCounter + 1);
-  }
-
-  function incrementIngredientID() {
-    setIngredientID(ingredientID + 1);
-  }
-
-  function changeConvertFromUnit(event) {
-
-  }
-
-  function changeConvertToUnit(event) {
-    setConvertToUnit(event.target.value);
-    console.log(event.target.value);
+    /*ingredients.forEach(element => {
+      if(event.target === element.ingredientID)
+    });*/
   }
 
   function changeIngredientName(event) {
     setIngredientName(event.target.value);
   }
 
-  function addIngredientBlock(){
-    incrementIngredientID();
+  function addIngredientBlock() {
+    setIngredientID(ingredientID + 1);
     ingredientBlocks.push(<IngredientBlock key={ingredientID} />);
+    setIngredientBlocks(ingredientBlocks);
   }
 
 
@@ -176,12 +164,6 @@ const NewRecipeStep2 = (props) => {
   function closeModal() {
     setIsOpen(false);
   }
-
-
-    function addIngredientBlock() {
-      setIngredientBlocks(ingredientBlocks.push(<IngredientBlock key={"K" + ingredientCounter} id={ingredientCounter} />));
-  }
-
 
   return (
     <div>
