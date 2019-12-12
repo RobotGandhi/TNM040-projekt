@@ -1,32 +1,13 @@
 import React, { useState } from 'react';
 import './App.css';
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
+import ListOfRecipes from './SavedRecipes';
+import NewRecipeStep1 from './NewRecipeStep1';
+import NewRecipeStep2 from './NewRecipeStep2';
+import QuickConvert from './QuickConvert';
 
-const Green = (props) => {
-  return(
-    <div className ="green">
-    G
-    </div>
-  );
-}
 
-/*function Red(props) {
-  return(
-    <div className ="red">
-    R
-    </div>
-  );
-}
-
-function Blue(props) {
-  return(
-    <div className ="blue">
-    B
-    </div>
-  );
-}*/
-
-function NavBar(props){
+function NavBar(props) {
   //states for what navbar button is selected
   const [selection1, setSelection1] = useState(false);
   const [selection2, setSelection2] = useState(true);
@@ -51,264 +32,76 @@ function NavBar(props){
     setSelection3(true);
   }
 
-  return(
+  return (
     /*Navbar*/
-    <div className="navBar">
-    {/*Recipes,
+    <header className="navHeader">
+      <div className="navBar">
+        {/*Recipes,
     Link is given the class selected if selection state is true(if button was clicked)*/}
-    <Link to ="/green" className={`navButton ${selection1 ? 'isSelected' : ''}`} onClick={button1Selected} >
-      <div>
-        G
+        <Link to="/listOfRecipes" className={`navButton ${selection1 ? 'isSelected' : ''}`} onClick={button1Selected} >
+          <div>
+            G
       </div>
-    </Link>
-    {/*Quick Convert*/}
-    <Link to ="/" className={`navButton ${selection2 ? 'isSelected' : ''}`} onClick={button2Selected}>
-      <div>
-       R
+        </Link>
+        {/*Quick Convert*/}
+        <Link to="/" className={`navButton ${selection2 ? 'isSelected' : ''}`} onClick={button2Selected}>
+          <div>
+            R
       </div>
-    </Link>
-    <Link to ="/stepone" className={`navButton ${selection3 ? 'isSelected' : ''}`} onClick={button3Selected}>
-     {/*New recipes*/}
-      <div>
-        B
+        </Link>
+        <Link to="/stepone" className={`navButton ${selection3 ? 'isSelected' : ''}`} onClick={button3Selected}>
+          {/*New recipes*/}
+          <div>
+            B
       </div>
-    </Link>
-  </div>
-  
+        </Link>
+      </div>
+    </header>
+
   );
-  
+
 }
 
-let a = null;
-let b = null;
- 
 function App() {
 
-	/*<div className="App">
-	    <Router>
-	        <Switch>
-	          	<Route path="/steptwo"><NewRecipeStep2/></Route>
-	          	<Route path="/stepone"><NewRecipeStep1/></Route>
-	      		<Route path="/"><QuickConvert/></Route>
-	        </Switch>
-	    </Router>
-    </div>*/
+  const [recipeList, setRecipeList] = useState([]);
+  const [temporaryValues, setTemporaryValues] = useState();
+
+  //callback functions 
+  function addRecipe(newRecipe) {
+    setRecipeList(recipeList.push(newRecipe));
+  }
+
+  function storeTemporaryValues (tempArr) {
+    setTemporaryValues(tempArr);
+  }
+
+  
+
   return (
     <Router>
       <div>
-        <Switch> 
-          <Route path="/green">
-            <Green/>
+        <Switch>
+          <Route path="/listOfRecipes">
+            <ListOfRecipes recipeList={recipeList}/>
           </Route>
           <Route path="/stepone">
-            <NewRecipeStep1/>
+            <NewRecipeStep1 callback={storeTemporaryValues}/>
           </Route>
-          <Route path="/steptwo">
-            <NewRecipeStep2/>
+          <Route path="/steptwo/:from/:to/:name">
+            <NewRecipeStep2 data={temporaryValues} callback={addRecipe}/>
           </Route>
           <Route path="/">
-            <QuickConvert/>
+            <QuickConvert />
           </Route>
+          
         </Switch>
-        </div>
-        <NavBar/>
+      </div>
+      <NavBar/>
     </Router>
   );
 }
-const NewRecipeStep2 = () => {
-  const [howManyIngredients, setHowManyIngredients ] = useState(1);
-
-  let ingredientsarray=[];/*
-  let temp= [];
-  ingredientsarray.push(" ");
- 
-*/
-for( let i = 0; i < howManyIngredients; i++ ){
-
-ingredientsarray.push(" ");
-}
-let temp = ingredientsarray.map((x,idx) => <Ingredient key = {idx}/> );
-  return(
-    <div className = "main">
-      <Textfieldrecipe/>
-
-      {temp}
-      
-    
-
-      <div className = "knapp"> Save </div>
-      <div onClick = {() => setHowManyIngredients(howManyIngredients + 1)} className = "knapp"> Add </div> 
-    </div>
-    );
-}
-const NewRecipeStep1 = () => {
-
-  return(
-
-    <div>
-    <div className = "main">
-<Textfieldrecipe/>
-<p> From </p> <div className = "knapp"> System </div>
-   <p> To </p> <div className = "knapp"> System </div>
-   <Link to="/steptwo" ><div className = "knapp">   Create </div></Link>   </div>
-
-</div>
-    )
-}
 
 
-
-function Ingredient(){
- 
-  return(
-
-  
-            
-    <div className="ingredientBox">
-    <Textfieldingredient/>
-    <div className = "knapp"> System </div>
-    <div className = "knapp"> System </div>
-    </div>
-    )
-
-}
-
-
-
-
-function Textfieldingredient() {
-if(b == null){
-    b = "Name of ingredient";
-}
-return(
-<input type="text" id="namnge" placeholder={b} onChange={changeInput2} />
-)
-}
-function Textfieldrecipe() {
-if(a == null){
-    a = "Name of recipe";
-}
-
-
-
-  return(
-    
-   <input type="text" id="namnge" placeholder={a} onChange={changeInput} />
-   
- 
-    )
-}
-
-function changeInput(event){
-a = event.target.value;
-
-}
-function changeInput2(event){
-b = event.target.value;
-
-}
-
-
-
-const QuickConvert = props => {
-  let convert = require('convert-units');
-
-  const [convertFrom, setConvertFrom] = useState("US-Custom");
-  const [convertTo, setConvertTo] = useState("Metric");
-  const [convertFromUnit, setConvertFromUnit] = useState("oz");
-  const [convertToUnit, setConvertToUnit] = useState("mg");
-  const [conversionAmount, setConversionAmount] = useState("0");
-  const [conversionResult, setConversionResult] = useState("0");
-
-  function changeConvertFrom(event) {
-    setConvertFrom(event.target.value);
-  }
-  function changeConvertTo(event) {
-    setConvertTo(event.target.value);
-  }
-  function changeConvertFromUnit(event) {
-    setConvertFromUnit(event.target.value);
-  }
-  function changeConvertToUnit(event) {
-    setConvertToUnit(event.target.value);
-  }
-  function changeConversionAmount(event) {
-    setConversionAmount(event.target.value);
-  }
-  function doConvert() {
-    setConversionResult(convert(conversionAmount).from(convertFromUnit).to(convertToUnit));
-  }
-  function doSwap() {
-    setConvertTo(convertFrom);
-    setConvertFrom(convertTo);
-    setConvertToUnit(convertFromUnit);
-    setConvertFromUnit(convertToUnit);
-  }
-
-  return(
-    <div className="quickConvert">
-      <h1 className="header">Quick Convert</h1>
-
-      <h2>From</h2>
-      <select value={convertFrom} className="selectFrom" onChange={changeConvertFrom}>
-        <option value="US-Custom">US-Custom</option>
-        <option value="Metric">Metric</option>
-      </select>
-
-      <h2>To</h2>
-      <select value={convertTo} className="selectTo" onChange={changeConvertTo}>
-        <option value="Metric">Metric</option>
-        <option value="US-Custom">US-Custom</option>
-      </select>
-
-      <div>
-        <input type="text" className="textInput" onChange={changeConversionAmount}></input>
-        {convertFrom === "US-Custom" &&
-        <select value={convertFromUnit} className="selectFromUnit" onChange={changeConvertFromUnit}>
-          <option value="oz">Ounces</option>
-          <option value="lb">Pounds</option>
-          <option value="fl-oz">Fluid Ounces</option>
-          <option value="cup">Cups</option>
-          <option value="pnt">Pints</option>
-          <option value="qt">Quarts</option>
-          <option value="gal">Gallons</option>
-        </select>}
-        {convertFrom === "Metric" &&
-        <select value={convertFromUnit} className="selectFromUnit" onChange={changeConvertFromUnit}>
-          <option value="mg">Milligrams</option>
-          <option value="g">Grams</option>
-          <option value="kg">Kilograms</option>
-          <option value="ml">Milliliters</option>
-          <option value="dl">Deciliters</option>
-          <option value="l">Liters</option>
-        </select>}
-
-        <button className="button" onClick={doConvert}>Convert!</button>
-
-        <input type="text" className="textInput" value={conversionResult} disabled></input>
-        {convertTo === "US-Custom" &&
-        <select value={convertToUnit} className="selectFromUnit" onChange={changeConvertToUnit}>
-          <option value="oz">Ounces</option>
-          <option value="lb">Pounds</option>
-          <option value="fl-oz">Fluid Ounces</option>
-          <option value="cup">Cups</option>
-          <option value="pnt">Pints</option>
-          <option value="qt">Quarts</option>
-          <option value="gal">Gallons</option>
-        </select>}
-        {convertTo === "Metric" &&
-        <select value={convertToUnit} className="selectFromUnit" onChange={changeConvertToUnit}>
-          <option value="mg">Milligrams</option>
-          <option value="g">Grams</option>
-          <option value="kg">Kilograms</option>
-          <option value="ml">Milliliters</option>
-          <option value="dl">Deciliters</option>
-          <option value="l">Liters</option>
-        </select>}
-      </div>
-      <button className="button" onClick={doSwap}>Convert!</button>
-    </div>
-  )
-};
 
 export default App;

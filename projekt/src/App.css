@@ -1,25 +1,92 @@
-.knapp{
-  background-color: #7289DA;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+.button{
+  background-color: #F6707B;
+  box-shadow: 3px 3px 3px rgba(158, 158, 158, 0.5);
   color: white;
-  width: 170px;
-  height: 50px;
-  left: 163px;
-  top: 486px;
-  
   text-align: center;
-  vertical-align: middle;
-  line-height: 50px;
+  height: 5vh;
+  line-height: 5vh;
+  margin: 1%;
 }
+
+.button:active{ background-color:  rgb(241, 74, 88); }
+.button:hover{ cursor: pointer; }
+
+.buttonModal{
+  display:inline-block;
+  background-color: #7289DA;
+  box-shadow: 0 4px 4px rgba(114, 137, 218, 0.5);
+  color: white;
+  text-align: center;
+  line-height: 6vh;
+  margin: 1%;
+  width: 48%;
+}
+
+.box {
+  margin-left: 5%;
+  margin-right: 5%;
+  background-color: #F2F2F2;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px rgb(212, 211, 211);
+}
+
+.box-in-box {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+
+.child1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: right;
+}
+
+.fromToParent{
+  margin-top: 5%;
+  display:block;
+  
+}
+.fromToParent div{
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.fromToParent div select{
+  width:41%;
+}
+
+.fromTo {
+  margin: 0;
+}
+
+
+
+.buttonModal:active{ background-color: rgba(105, 125, 208, 1); }
+.buttonModal:hover{ cursor: pointer; }
 
 .content{
   height: 89vh;
-  background-color: grey; 
-  
+  background-color: grey;  
 }
-
+.header{
+  text-align: center;
+  margin-top : 0px;
+  font-size: 36px;
+  background-color:#F55056;
+  color: white;
+}
+.navHeader{
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 89vh;
+}
 .navBar{
   display: flex;
+  flex-grow: 1;
   justify-content: space-around;
 }
 
@@ -28,16 +95,18 @@
   text-align: center;
   flex-grow: 1;
   height: 11vh;
+  background: #34495A;
+  border: 1px solid #455F75;
+
 }
 
 .ingredientBox{
-width: 400px;
-height: 125px;
-left: 48px;
-top: 164px;
-
-background: #34495A;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 400px;
+  height: 125px;
+  left: 48px;
+  top: 164px;
+  background: #34495A;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .main{
@@ -51,23 +120,130 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .green{
-  background-color: green;
+  background: white;
   height: 89vh;
 }
 
 .red{
-  background-color: red;
+  background: white;
   height: 89vh;
 }
 
 .blue {
-  background-color: blue;
+  background: white;
   height: 89vh;
 }
 
 .isSelected {
-  background-color: black;
+background: #2A3B49;
 }
 #namnge{
   width: 100%;
+}
+
+.textInput {
+  height: 4.5vh;
+  background-color: white;
+  width: 100%;
+}
+
+.textInputGray {
+  height: 4.5vh;
+  background-color: rgb(230, 230, 230);
+  width: 100%;
+}
+
+.dropdown {
+  height: 5vh;
+  background-color: #F55056;
+  color: white;
+  width: 100%;
+  box-shadow: black;
+  font-family: "Roboto Light";
+}
+
+.dropdown2 {
+  width: 100%;
+  height: 5vh;
+  background-color: #F55056;
+  color: white;
+  box-shadow: black;
+  font-family: "Roboto Light";
+
+}
+
+
+.dropdown-content {
+
+}
+
+.quickConvert {
+
+}
+
+.descriptionModal h3 {
+  text-align: center;
+  margin-top: 0px;
+}
+
+.descriptionModal {
+  position: absolute; 
+  top: 5%;   
+  left: 5%; 
+  right: 5%;
+  bottom: 15%;  
+  border: 1px solid rgb(204, 204, 204); 
+  background: rgb(255, 255, 255); 
+  overflow: auto; 
+  border-radius: 4px; 
+  outline: none; 
+  padding: 20px;
+}
+
+.descriptionField {
+  width: 100%;
+  height: 60vh;
+}
+
+.super {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.daddyCool {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.daddyCool select {
+  width: 23vw;
+}
+
+.daddy1 {
+
+}
+.daddy2 {
+  align-content: space-between;
+}
+
+.convertButton {
+  margin-top: 5%;
+}
+
+.convertButton{
+  background-color: #F6707B;
+  box-shadow: 3px 3px 3px rgba(158, 158, 158, 0.5);
+  color: white;
+  text-align: center;
+  margin-top: 5%;
+  line-height: 5vh;
+}
+
+.convertButton:active{ background-color:  rgb(241, 74, 88); }
+.convertButton:hover{ cursor: pointer; }
+
+.mrpoopypants {
+  width: 100%;
+  flex-direction: row;
 }
