@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
 
-const ListOfRecipes = () => {
+const ListOfRecipes = (props) => {
   let convert = require('convert-units');
 
   //Temporary hardcoded recipes
@@ -46,6 +47,14 @@ const ListOfRecipes = () => {
     recipe2
   ]);
 
+  function changeRecipeURLName (event) {
+    props.changeURLName(event.target.value);
+  }
+
+  props.callback(localRecipeList); 
+  
+  console.log(props.recipeList);
+
   // Creates a temporary array that filters out the recipe you deleted and sets the recipe array to the temporary array
   function deleteRecipe(event) {
     const temp = localRecipeList.filter(r => r.id != event.target.id);
@@ -57,8 +66,14 @@ const ListOfRecipes = () => {
           <h1>In progress again...</h1>
           {localRecipeList.map(recipe => 
             <div>
-              <h1>{recipe.name}</h1>
-              <button id={recipe.id} onClick={deleteRecipe}> Delete</button>
+              <Link to={"/" + recipe.name} onClick={changeRecipeURLName} value={recipe.name}>
+                <h1>
+                  {recipe.name}
+                </h1>
+              </Link>
+              <button id={recipe.id} onClick={deleteRecipe}>
+                 Delete
+              </button>
             </div>
           )}
         </div>

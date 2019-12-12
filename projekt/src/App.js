@@ -5,6 +5,7 @@ import ListOfRecipes from './SavedRecipes';
 import NewRecipeStep1 from './NewRecipeStep1';
 import NewRecipeStep2 from './NewRecipeStep2';
 import QuickConvert from './QuickConvert';
+import DisplayRecipe from './DisplayRecipe';
 
 
 function NavBar(props) {
@@ -66,6 +67,7 @@ function App() {
 
   const [recipeList, setRecipeList] = useState([]);
   const [temporaryValues, setTemporaryValues] = useState();
+  let recipeName = "";
   
 
   //callback functions 
@@ -77,14 +79,23 @@ function App() {
     setTemporaryValues(tempArr);
   }
 
+  function sendData (recipeList) {
+    setRecipeList(recipeList);
+  }
   
+  function changeRecipeURLName (rname) {
+    recipeName = rname;
+  }
 
   return (
     <Router>
       <div>
         <Switch>
           <Route path="/listOfRecipes">
-            <ListOfRecipes recipeList={recipeList}/>
+            <ListOfRecipes recipeList={recipeList} callback={sendData} changeURLName={changeRecipeURLName} />
+          </Route>
+          <Route path={"/" + recipeName + ":name"}>
+            <DisplayRecipe data={recipeList} clickedName={recipeName}/>
           </Route>
           <Route path="/stepone">
             <NewRecipeStep1 data={recipeList} callback={storeTemporaryValues}/>
