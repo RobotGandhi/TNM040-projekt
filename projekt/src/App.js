@@ -66,6 +66,7 @@ function App() {
 
   const [recipeList, setRecipeList] = useState([]);
   const [temporaryValues, setTemporaryValues] = useState();
+  
 
   //callback functions 
   function addRecipe(newRecipe) {
@@ -86,7 +87,7 @@ function App() {
             <ListOfRecipes recipeList={recipeList}/>
           </Route>
           <Route path="/stepone">
-            <NewRecipeStep1 callback={storeTemporaryValues}/>
+            <NewRecipeStep1 data={recipeList} callback={storeTemporaryValues}/>
           </Route>
           <Route path="/steptwo/:from/:to/:name">
             <NewRecipeStep2 data={temporaryValues} callback={addRecipe}/>

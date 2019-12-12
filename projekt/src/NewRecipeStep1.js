@@ -9,6 +9,7 @@ const NewRecipeStep1 = (props) => {
     const [recipeName, setRecipeName] = useState("Recipe");
     const [convertFrom, setConvertFrom] = useState("US-Custom");
     const [convertTo, setConvertTo] = useState("Metric");
+    const [recipeID, setRecipeID] = useState(props.data.length + 1);
   
     function changeRecipeName(event) {
       setRecipeName(event.target.value);
@@ -20,8 +21,12 @@ const NewRecipeStep1 = (props) => {
       setConvertTo(event.target.value);
     }
 
+    function changeConvertTo(event) {
+      setConvertTo(event.target.value);
+    }
+
     function sendTempValues() {
-        props.storeTemporaryValues([recipeName, convertFrom, convertTo]);
+        props.storeTemporaryValues([recipeName, convertFrom, convertTo, recipeID]);
     }
 
     return (
