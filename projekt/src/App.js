@@ -40,19 +40,28 @@ function NavBar(props) {
     Link is given the class selected if selection state is true(if button was clicked)*/}
         <Link to="/listOfRecipes" className={`navButton ${selection1 ? 'isSelected' : ''}`} onClick={button1Selected} >
           <div>
-            G
+            {
+              selection1 ? <img alt ="List of Recipes Selected" src = "BookOfRecipesIconSelected.svg"></img> 
+              : <img alt ="List of Recipes" src = "BookOfRecipesIcon.svg"></img>
+            }
       </div>
         </Link>
         {/*Quick Convert*/}
         <Link to="/" className={`navButton ${selection2 ? 'isSelected' : ''}`} onClick={button2Selected}>
           <div>
-            R
+          {
+              selection2 ? <img alt ="Quick Convert Selected" src = "QuickConvertIcon3Selected.svg"></img> 
+              : <img alt ="Quick Convert" src = "QuickConvertIcon3.svg"></img>
+            }
       </div>
         </Link>
         <Link to="/stepone" className={`navButton ${selection3 ? 'isSelected' : ''}`} onClick={button3Selected}>
           {/*New recipes*/}
           <div>
-            B
+          {
+              selection3 ? <img alt ="New Recipe Selected" src = "NewRecipeIconSelected.svg"></img> 
+              : <img alt ="New Recipe" src = "NewRecipeIcon.svg"></img>
+            }
       </div>
         </Link>
       </div>

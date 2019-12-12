@@ -91,13 +91,19 @@
 }
 
 .navButton{
-  line-height: 11vh;
+  line-height: 10vh;
   text-align: center;
   flex-grow: 1;
   height: 11vh;
-  background: #34495A;
-  border: 1px solid #455F75;
+  border-left: 1px solid #E5E5E5;
+  border-right: 1px solid #E5E5E5;
+  border-top: 1px solid #A3A3A3;
+  background-color: #F2F2F2;
+}
 
+.navButton img{
+  vertical-align: middle;
+  width: 70px;
 }
 
 .ingredientBox{
@@ -135,7 +141,7 @@
 }
 
 .isSelected {
-background: #2A3B49;
+
 }
 #namnge{
   width: 100%;
