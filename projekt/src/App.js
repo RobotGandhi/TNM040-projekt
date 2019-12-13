@@ -75,9 +75,7 @@ function NavBar(props) {
 function App() {
 
   const [recipeList, setRecipeList] = useState([]);
-  const [temporaryValues, setTemporaryValues] = useState();
-  let recipeName = "";
-  
+  const [temporaryValues, setTemporaryValues] = useState();  
 
   //callback functions 
   function addRecipe(newRecipe) {
@@ -92,19 +90,17 @@ function App() {
     setRecipeList(recipeList);
   }
   
-  function changeRecipeURLName (rname) {
-    recipeName = rname;
-  }
+ 
 
   return (
     <Router>
       <div>
         <Switch>
           <Route path="/listOfRecipes">
-            <ListOfRecipes recipeList={recipeList} callback={sendData} changeURLName={changeRecipeURLName} />
+            <ListOfRecipes recipeList={recipeList} callback={sendData} />
           </Route>
-          <Route path={"/" + recipeName + ":name"}>
-            <DisplayRecipe data={recipeList} clickedName={recipeName}/>
+          <Route path={"/:name"}>
+            <DisplayRecipe data={recipeList} />
           </Route>
           <Route path="/stepone">
             <NewRecipeStep1 data={recipeList} callback={storeTemporaryValues}/>

@@ -9,7 +9,7 @@ const ListOfRecipes = (props) => {
     name: "Jeff1",
     amount: 10,
     convertFrom: "oz",
-    covertTo: "mg",
+    convertTo: "mg",
     conversionResult: 28761,
     ingredientId: 1
   }
@@ -17,27 +17,27 @@ const ListOfRecipes = (props) => {
     name: "Jeff2",
     amount: 20,
     convertFrom: "oz",
-    covertTo: "mg",
+    convertTo: "mg",
     conversionResult: 53761,
     ingredientId: 2
   }
 
   let recipe1 = {
     name: "Jeff1",
-    ingredients: {
+    ingredients: [
       ingredient1, 
       ingredient2
-    },
+    ],
     description: "1111111111111111111111111111111111111",
     id: 1
   };
 
   let recipe2 = {
     name: "Jeff2",
-    ingredients: {
+    ingredients: [
       ingredient2, 
       ingredient1
-    },
+    ],
     description: "22222222222222222222222222222222222222",
     id: 2
   };
@@ -46,14 +46,9 @@ const ListOfRecipes = (props) => {
     recipe1,
     recipe2
   ]);
-
-  function changeRecipeURLName (event) {
-    props.changeURLName(event.target.value);
-  }
-
-  props.callback(localRecipeList); 
   
-  console.log(props.recipeList);
+  // Sends hardcoded data to global array through callback
+  props.callback(localRecipeList);
 
   // Creates a temporary array that filters out the recipe you deleted and sets the recipe array to the temporary array
   function deleteRecipe(event) {
@@ -66,7 +61,7 @@ const ListOfRecipes = (props) => {
           <h1>In progress again...</h1>
           {localRecipeList.map(recipe => 
             <div>
-              <Link to={"/" + recipe.name} onClick={changeRecipeURLName} value={recipe.name}>
+              <Link to={"/" + recipe.name}>
                 <h1>
                   {recipe.name}
                 </h1>

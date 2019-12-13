@@ -91,7 +91,7 @@ const NewRecipeStep2 = (props) => {
 
   function changeIngredient(event) {
     let parent = event.target.parentElement;
-    console.log
+    //console.log
 
     /*ingredients.forEach(element => {
       if(event.target === element.ingredientID)
