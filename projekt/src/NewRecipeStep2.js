@@ -7,7 +7,7 @@ const NewRecipeStep2 = (props) => {
   let { from, to, name } = useParams();
   let convert = require('convert-units');
 
-  const [recipeName, setRecipeName] = useState(props.data[0]);
+  const [recipeName, setRecipeName] = useState(name.name);
   console.log(recipeName)
   const [recipeDescription, setRecipeDescription] = useState("");
 
@@ -19,7 +19,14 @@ const NewRecipeStep2 = (props) => {
   const [ingredientAmount, setIngredientAmount] = useState(0.0);
   const [ingredientID, setIngredientID] = useState(1);
 
-  const [ingredient, setIngredient] = useState();
+  const [ingredient, setIngredient] = useState({
+    ingredientName: "",
+    ingredientAmount: 0.0,
+    ingredientConvertFrom: "",
+    ingredientConvertTo: "",
+    conversionResult: 0.0,
+    ingredientId: ingredientID
+  });
 
 
   const [ingredients, setIngredients] = useState([{
@@ -90,12 +97,20 @@ const NewRecipeStep2 = (props) => {
   const [ingredientBlocks, setIngredientBlocks] = useState([<IngredientBlock key={ingredientID} />]);
 
   function changeIngredient(event) {
-    let parent = event.target.parentElement;
-    //console.log
+    setIngredient({
+      [event.target.name]: event.target.value
+    });
+    setIngredients(ingredients);
+    let parent = event.target.parentElement.name;
+    ingredients.map(ingredient => {
+      if(ingredient.ingredientId === parent) {
+        if (event.target.name === "ingredientName") {
+          ingredient.name = event.target.value
+        }
+      }
+    })
 
-    /*ingredients.forEach(element => {
-      if(event.target === element.ingredientID)
-    });*/
+    console.log(ingredients);
   }
 
   function changeIngredientName(event) {
@@ -106,8 +121,8 @@ const NewRecipeStep2 = (props) => {
     setIngredientID(ingredientID + 1);
     ingredientBlocks.push(<IngredientBlock key={ingredientID} />);
     setIngredientBlocks(ingredientBlocks);
+    ingredients.push(ingredient);
   }
-
 
   /*function blocksAndIngredients() {
 
