@@ -103,6 +103,9 @@ const NewRecipeStep2 = (props) => {
     setIngredients(ingredients);
     let parent = event.target.parentElement.name;
     ingredients.map(ingredient => {
+      //Spread operator?
+      //ingredients.state.name för att få en uppdaterad state?
+      // https://learn.co/lessons/react-updating-state
       if(ingredient.ingredientId === parent) {
         if (event.target.name === "ingredientName") {
           console.log(event.target.value);
