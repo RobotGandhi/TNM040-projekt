@@ -105,12 +105,10 @@ const NewRecipeStep2 = (props) => {
     ingredients.map(ingredient => {
       if(ingredient.ingredientId === parent) {
         if (event.target.name === "ingredientName") {
-          ingredient.name = event.target.value
+          console.log(event.target.value);
         }
       }
     })
-
-    console.log(ingredients);
   }
 
   function changeIngredientName(event) {
@@ -122,6 +120,7 @@ const NewRecipeStep2 = (props) => {
     ingredientBlocks.push(<IngredientBlock key={ingredientID} />);
     setIngredientBlocks(ingredientBlocks);
     ingredients.push(ingredient);
+    console.log(ingredientID);
   }
 
   /*function blocksAndIngredients() {
