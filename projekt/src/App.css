@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Lato|Montserrat:200&display=swap');
+
 .button{
   background-color: #F6707B;
   box-shadow: 3px 3px 3px rgba(158, 158, 158, 0.5);
@@ -6,6 +8,12 @@
   height: 5vh;
   line-height: 5vh;
   margin: 1%;
+}
+
+.button img {
+  vertical-align: middle;
+  width: 30px;
+  padding: 4px;
 }
 
 .button:active{ background-color:  rgb(241, 74, 88); }
@@ -23,11 +31,14 @@
 }
 
 .box {
+  margin-top: 15vh;
   margin-left: 5%;
   margin-right: 5%;
   background-color: #F2F2F2;
   border-radius: 5px;
   box-shadow: 3px 3px 3px rgb(212, 211, 211);
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
 }
 
 .box-in-box {
@@ -56,13 +67,13 @@
 
 .fromToParent div select{
   width:41%;
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
 }
 
 .fromTo {
   margin: 0;
 }
-
-
 
 .buttonModal:active{ background-color: rgba(105, 125, 208, 1); }
 .buttonModal:hover{ cursor: pointer; }
@@ -72,12 +83,17 @@
   background-color: grey;  
 }
 .header{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  text-transform: uppercase;
   text-align: center;
-  margin-top : 0px;
-  font-size: 36px;
+  margin-top: 0px;
+  padding: 3px;
+  font-size: 30px;
   background-color:#F55056;
   color: white;
 }
+
 .navHeader{
   position: fixed;
   right: 0;
@@ -151,12 +167,16 @@
   height: 4.5vh;
   background-color: white;
   width: 100%;
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
 }
 
 .textInputGray {
   height: 4.5vh;
   background-color: rgb(230, 230, 230);
   width: 100%;
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
 }
 
 .dropdown {
@@ -165,7 +185,8 @@
   color: white;
   width: 100%;
   box-shadow: black;
-  font-family: "Roboto Light";
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
 }
 
 .dropdown2 {
@@ -174,7 +195,8 @@
   background-color: #F55056;
   color: white;
   box-shadow: black;
-  font-family: "Roboto Light";
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
 
 }
 
@@ -223,7 +245,7 @@
   justify-content: space-evenly;
 }
 .daddyCool select {
-  width: 23vw;
+  width: 14vw;
 }
 
 .daddy1 {
