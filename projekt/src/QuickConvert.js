@@ -52,7 +52,7 @@ const QuickConvert = props => {
     setConversionAmount(event.target.value);
   }
   function doConvert() {
-    setConversionResult(convert(conversionAmount).from(convertFromUnit).to(convertToUnit).toPrecision(4));
+    setConversionResult(convert(conversionAmount).from(convertFromUnit).to(convertToUnit).toFixed(2));
   }
   function doSwap() {
     setConvertTo(convertFrom);
