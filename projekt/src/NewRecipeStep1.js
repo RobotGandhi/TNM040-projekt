@@ -30,7 +30,6 @@ const NewRecipeStep1 = (props) => {
     }
 
     return (
-  
       <div>
         <div className="main">
           <input type="text" className="recipeName" placeholder="Name of recipe..." onChange={changeRecipeName}>

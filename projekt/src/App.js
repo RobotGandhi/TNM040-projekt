@@ -99,19 +99,18 @@ function App() {
           <Route path="/listOfRecipes">
             <ListOfRecipes recipeList={recipeList} callback={sendData} />
           </Route>
-          <Route path={"/:name"}>
-            <DisplayRecipe data={recipeList} />
-          </Route>
           <Route path="/stepone">
             <NewRecipeStep1 data={recipeList} callback={storeTemporaryValues}/>
           </Route>
           <Route path="/steptwo/:from/:to/:name">
             <NewRecipeStep2 data={temporaryValues} callback={addRecipe}/>
           </Route>
+          <Route path={"/:name"}>
+            <DisplayRecipe data={recipeList} />
+          </Route>
           <Route path="/">
             <QuickConvert />
           </Route>
-          
         </Switch>
       </div>
       <NavBar/>
