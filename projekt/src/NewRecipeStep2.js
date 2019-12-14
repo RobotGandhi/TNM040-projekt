@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
 import Modal from 'react-modal';
 
@@ -19,6 +19,8 @@ const NewRecipeStep2 = (props) => {
   const [ingredientAmount, setIngredientAmount] = useState(0.0);
   const [ingredientID, setIngredientID] = useState(1);
 
+  //let ingredientID = 1;
+
   const [ingredient, setIngredient] = useState({
     ingredientName: "",
     ingredientAmount: 0.0,
@@ -37,9 +39,6 @@ const NewRecipeStep2 = (props) => {
     conversionResult: 0.0,
     ingredientId: ingredientID
   }]);
-
-
-
 
   const IngredientBlock = (props) => {
     return (
@@ -97,19 +96,18 @@ const NewRecipeStep2 = (props) => {
   const [ingredientBlocks, setIngredientBlocks] = useState([<IngredientBlock key={ingredientID} />]);
 
   function changeIngredient(event) {
-    setIngredient({
-      [event.target.name]: event.target.value
-    });
-    setIngredients(ingredients);
     let parent = event.target.parentElement.name;
+      setIngredient({
+        [event.target.name]: event.target.value
+      });
     ingredients.map(ingredient => {
       //Spread operator?
       //ingredients.state.name för att få en uppdaterad state?
       // https://learn.co/lessons/react-updating-state
       if(ingredient.ingredientId === parent) {
-        if (event.target.name === "ingredientName") {
-          console.log(event.target.value);
-        }
+        setIngredients({
+            [event.target.name]: event.target.value
+        });
       }
     })
   }
@@ -118,12 +116,27 @@ const NewRecipeStep2 = (props) => {
     setIngredientName(event.target.value);
   }
 
+  function addIngredient() {
+    addIngredientBlock();
+    updateIngredientData();
+    incrementIngredientID();
+  }
+
   function addIngredientBlock() {
-    setIngredientID(ingredientID + 1);
-    ingredientBlocks.push(<IngredientBlock key={ingredientID} />);
-    setIngredientBlocks(ingredientBlocks);
+    //ingredientBlocks.push(<IngredientBlock key={ingredientID} />)
+    setIngredientBlocks([
+      ...ingredientBlocks,<IngredientBlock key={ingredientID}/>
+    ]);
+  }
+
+  function incrementIngredientID () {
+    setIngredientID(ingredientID+1, () => setIngredientID(ingredientID));
+    //ingredientID++;
+  }
+
+  function updateIngredientData() {
     ingredients.push(ingredient);
-    console.log(ingredientID);
+    setIngredients(ingredients);
   }
 
   /*function blocksAndIngredients() {
@@ -182,11 +195,13 @@ const NewRecipeStep2 = (props) => {
     setIsOpen(false);
   }
 
+  console.log(ingredient);
+
   return (
     <div>
       <input type="text" placeholder={name} onChange={changeIngredientName}>
       </input>
-      <button onClick={addIngredientBlock}>
+      <button onClick={addIngredient}>
         +
         </button>
       <div>
