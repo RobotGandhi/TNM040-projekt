@@ -80,6 +80,7 @@ function App() {
   //callback functions 
   function addRecipe(newRecipe) {
     setRecipeList(recipeList.push(newRecipe));
+    console.log(recipeList);
   }
 
   function storeTemporaryValues (tempArr) {

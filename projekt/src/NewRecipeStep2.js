@@ -106,25 +106,19 @@ const NewRecipeStep2 = (props) => {
       {
         ...prevState[parent],
         [event.target.name]: event.target.value,
-        ['conversionResult']: convert(parseInt(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2),
       },
       ...prevState.slice(parent + 1)
     ]));
-
-    //convert
-    let currentIngredient = ingredients[parent]; 
-    
-    currentIngredient.conversionResult = convert(parseInt(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2);
-    console.log(currentIngredient.conversionResult);
-
   }
 
-  console.log(ingredients);
-  /*useEffect(() => {
-    let currentIngredient = ingredients[0];
-    currentIngredient.conversionResult = convert(parseInt(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2);
-    console.log()
-  });*/
+  //convert each ingredient
+  useEffect(() => {
+    let currentIngredient;
+    ingredients.forEach(element => {
+      currentIngredient = element;
+      currentIngredient.conversionResult = convert(parseInt(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2);
+    });
+  });
 
   function changeIngredientName(event) {
     setIngredientName(event.target.value);
@@ -160,9 +154,6 @@ const NewRecipeStep2 = (props) => {
     //++ingredientID;
   }
 
-  
-  
-
   function changeDescription(event) {
     setRecipeDescription(event.target.value);
   }
@@ -182,6 +173,16 @@ const NewRecipeStep2 = (props) => {
 
   //console.log(ingredient);
 
+  function saveRecipe() {
+    let recipe = {
+      name: props.data[0],
+      ingredients: ingredients,
+      description: recipeDescription,
+      id: props.data[3]
+    };
+    props.callback(recipe);
+  }
+
   return (
     <div>
       <input type="text" placeholder={name} onChange={changeIngredientName}>
@@ -192,7 +193,7 @@ const NewRecipeStep2 = (props) => {
       <div>
         {ingredientBlocks}
       </div>
-      <button >Save</button>
+      <button onClick={openModal}>Save</button>
       <Modal className="descriptionModal"
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
@@ -205,7 +206,7 @@ const NewRecipeStep2 = (props) => {
           </form>
           <div onClick={closeModal} className="buttonModal" >Back</div>
           <Link to={"/listOfRecipes"}>
-            <button className="buttonModal" >Save</button>
+            <button className="buttonModal" onClick={saveRecipe}>Save</button>
           </Link>
 
         </div>
