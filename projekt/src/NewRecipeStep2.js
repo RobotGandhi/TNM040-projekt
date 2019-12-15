@@ -9,26 +9,9 @@ const NewRecipeStep2 = (props) => {
 
   const [recipeName, setRecipeName] = useState(name.name);
   const [recipeDescription, setRecipeDescription] = useState("");
-
   const [convertFromUnit, setConvertFromUnit] = useState("oz");
   const [convertToUnit, setConvertToUnit] = useState("mg");
-  const [conversionResult, setConversionResult] = useState("0");
-
-  const [ingredientName, setIngredientName] = useState("");
-  const [ingredientAmount, setIngredientAmount] = useState(0.0);
   const [ingredientID, setIngredientID] = useState(1);
-
-  //let ingredientID = 0;
-
-  const [ingredient, setIngredient] = useState({
-    ingredientName: "",
-    ingredientAmount: 0.0,
-    ingredientConvertFrom: "",
-    ingredientConvertTo: "",
-    conversionResult: 0.0,
-    ingredientId: 0
-  });
-
 
   const [ingredients, setIngredients] = useState([
     {
@@ -120,10 +103,6 @@ const NewRecipeStep2 = (props) => {
     });
   });
 
-  function changeIngredientName(event) {
-    setIngredientName(event.target.value);
-  }
-
   function addIngredient() {
     incrementIngredientID();
     addIngredientBlock();
@@ -158,6 +137,9 @@ const NewRecipeStep2 = (props) => {
     setRecipeDescription(event.target.value);
   }
 
+  function changeRecipeName(event) {
+    setRecipeName(event.target.value);
+  }
 
   //Modal handling
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -171,11 +153,11 @@ const NewRecipeStep2 = (props) => {
     setIsOpen(false);
   }
 
-  //console.log(ingredient);
+  console.log(ingredients);
 
   function saveRecipe() {
     let recipe = {
-      name: props.data[0],
+      name: recipeName,
       ingredients: ingredients,
       description: recipeDescription,
       id: props.data[3]
@@ -185,7 +167,7 @@ const NewRecipeStep2 = (props) => {
 
   return (
     <div>
-      <input type="text" placeholder={name} onChange={changeIngredientName}>
+      <input type="text" placeholder={name} onChange={changeRecipeName}>
       </input>
       <button onClick={addIngredient}>
         +
