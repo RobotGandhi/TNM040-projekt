@@ -9,23 +9,23 @@ const NewRecipeStep2 = (props) => {
 
   const [recipeName, setRecipeName] = useState(name.name);
   const [recipeDescription, setRecipeDescription] = useState("");
-  const [convertFromUnit, setConvertFromUnit] = useState("oz");
-  const [convertToUnit, setConvertToUnit] = useState("mg");
+  const [convertFromUnit, setConvertFromUnit] = useState(from === "US-Custom" ? "oz" : "mg");
+  const [convertToUnit, setConvertToUnit] = useState(to === "US-Custom" ? "mg" : "oz");
   const [ingredientID, setIngredientID] = useState(1);
-
+  
   const [ingredients, setIngredients] = useState([
     {
     ingredientName: "",
     ingredientAmount: 0.0,
-    ingredientConvertFrom: "oz",
-    ingredientConvertTo: "mg",
+    ingredientConvertFrom: from === "US-Custom" ? "oz" : "mg",
+    ingredientConvertTo: to === "US-Custom" ? "oz" : "mg",
     conversionResult: 0.0,
     ingredientId: 0
   }]);
 
+
   const IngredientBlock = (props) => {
-  
-    return (
+	return (
       <div>
         <form name={props.componentID}>
           <input name={"ingredientName"} type="text" className="ingredientName" onChange={changeIngredient}>
@@ -33,7 +33,7 @@ const NewRecipeStep2 = (props) => {
           <input name={"ingredientAmount"} type="text" className="ingredientAmount" onChange={changeIngredient}>
           </input>
           {from === "US-Custom" &&
-            <select name="ingredientConvertFrom" value={convertFromUnit} className="dropdown" onChange={changeIngredient}>
+            <select name="ingredientConvertFrom" className="dropdown" onChange={changeIngredient}>
               <option value="oz">Ounces</option>
               <option value="lb">Pounds</option>
               <option value="fl-oz">Fluid Ounces</option>
@@ -43,7 +43,7 @@ const NewRecipeStep2 = (props) => {
               <option value="gal">Gallons</option>
             </select>}
           {from === "Metric" &&
-            <select name="ingredientConvertFrom" value={convertFromUnit} className="dropdown" onChange={changeIngredient}>
+            <select name="ingredientConvertFrom" className="dropdown" onChange={changeIngredient}>
               <option value="mg">Milligrams</option>
               <option value="g">Grams</option>
               <option value="kg">Kilograms</option>
@@ -54,21 +54,19 @@ const NewRecipeStep2 = (props) => {
 
           <span> To </span>
           {to === "US-Custom" &&
-            <select name="ingredientConvertTo" value={convertToUnit} className="dropdown" onChange={changeIngredient}>
+            <select name="ingredientConvertTo" className="dropdown" onChange={changeIngredient} key={props.componentID}>
               <option value="oz">Ounces</option>
-              <option value="lb">Pounds</option>
-              <option value="fl-oz">Fluid Ounces</option>
+              <option value="lb">Pounds</option><option value="fl-oz">Fluid Ounces</option>
               <option value="cup">Cups</option>
               <option value="pnt">Pints</option>
               <option value="qt">Quarts</option>
               <option value="gal">Gallons</option>
             </select>}
           {to === "Metric" &&
-            <select name="ingredientConvertTo" value={convertToUnit} className="dropdown" onChange={changeIngredient}>
+            <select name="ingredientConvertTo" className="dropdown" onChange={changeIngredient} key={props.componentID}>
               <option value="mg">Milligrams</option>
               <option value="g">Grams</option>
-              <option value="kg">Kilograms</option>
-              <option value="ml">Milliliters</option>
+              <option value="kg">Kilograms</option><option value="ml">Milliliters</option>
               <option value="dl">Deciliters</option>
               <option value="l">Liters</option>
             </select>}
@@ -92,14 +90,28 @@ const NewRecipeStep2 = (props) => {
       },
       ...prevState.slice(parent + 1)
     ]));
+	
+	if(event.target.name === "ingredientConvertFrom") {
+		setConvertFromUnit(event.target.value);
+	}
+	
+	console.log(ingredients);
   }
 
   //convert each ingredient
   useEffect(() => {
-    let currentIngredient;
+    let currentIngredient, currentBlock;
+	const volume = ["fl-oz", "cup", "pnt", "qt", "gal", "ml", "dl", "l"];
+	const mass = ["oz", "lb", "mg", "g", "kg"];
     ingredients.forEach(element => {
-      currentIngredient = element;
-      currentIngredient.conversionResult = convert(parseInt(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2);
+		currentIngredient = element;
+		if(volume.indexOf(currentIngredient.ingredientConvertFrom) > -1 && mass.indexOf(currentIngredient.ingredientConvertTo) > -1) {
+			to === "US-Custom" ? currentIngredient.ingredientConvertTo = "fl-oz" : currentIngredient.ingredientConvertTo = "ml";
+		}
+		else if(mass.indexOf(currentIngredient.ingredientConvertFrom) > -1 && volume.indexOf(currentIngredient.ingredientConvertTo) > -1) {
+			to === "US-Custom" ? currentIngredient.ingredientConvertTo = "oz" : currentIngredient.ingredientConvertTo = "mg";
+		}
+		currentIngredient.conversionResult = convert(parseInt(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2);
     });
   });
 
@@ -110,20 +122,21 @@ const NewRecipeStep2 = (props) => {
 
   function addIngredientBlock() {
 
-    setIngredientBlocks([
-      ...ingredientBlocks, <IngredientBlock key={ingredientID} componentID={ingredientID}/>
-    ]);
-
     setIngredients([
       ...ingredients,
       {
         ingredientName: "",
         ingredientAmount: 0.0,
-        ingredientConvertFrom: "oz",
-        ingredientConvertTo: "mg",
+		ingredientConvertFrom: from === "US-Custom" ? "oz" : "mg",
+		ingredientConvertTo: to === "US-Custom" ? "oz" : "mg",
         conversionResult: 0.0,
         ingredientId: ingredientID
       }
+    ]);
+	
+	
+	setIngredientBlocks([
+      ...ingredientBlocks, <IngredientBlock key={ingredientID} componentID={ingredientID}/>
     ]);
 
   }
