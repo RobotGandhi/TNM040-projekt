@@ -92,8 +92,6 @@ function App() {
     setRecipeList(temp);
   }
   
- 
-  console.log(recipeList);
   return (
     <Router>
       <div>
