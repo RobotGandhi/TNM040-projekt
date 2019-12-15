@@ -42,10 +42,44 @@
 }
 
 .box-in-box {
+  margin-top: 5%;
   margin-left: 5%;
   margin-right: 5%;
-  margin-bottom: 5%;
-  margin-top: 5%;
+  padding-bottom: 5%;
+}
+
+.newRecipeHeader{
+  margin-bottom: 3%;
+  text-align: center;
+  padding-top:3%;
+}
+
+a {
+  text-decoration: none;
+}
+
+.newRecipe1 input{
+  text-align: center;
+  height: 4vh;
+  background-color: white;
+  width: 100%;
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  margin-bottom: 17px;
+}
+
+.newRecipe1 div {
+  width: 100%;
+  display:flex;
+  justify-content: space-between;
+}
+
+.newRecipe1 .button {
+  margin-top: 17px;
+}
+
+.newRecipe1 .dropdown2 {
+  width: 40%;
 }
 
 .child1 {
@@ -200,13 +234,7 @@
 
 }
 
-
 .dropdown-content {
-
-}
-
-.quickConvert {
-
 }
 
 .descriptionModal h3 {
@@ -253,10 +281,6 @@
 }
 .daddy2 {
   align-content: space-between;
-}
-
-.convertButton {
-  margin-top: 5%;
 }
 
 .convertButton{

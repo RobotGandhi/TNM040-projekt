@@ -70,6 +70,7 @@ const NewRecipeStep2 = (props) => {
               <option value="dl">Deciliters</option>
               <option value="l">Liters</option>
             </select>}
+            <button type="button" onClick={deleteIngredient}>Delete</button>
         </form>
       </div>
     );
@@ -120,6 +121,19 @@ const NewRecipeStep2 = (props) => {
     addIngredientBlock();
   }
 
+  function deleteIngredient(event){
+    
+    let parent = event.target.parentElement.name;
+
+    let tempBlocks = [ingredientBlocks];
+    tempBlocks.splice(parent);
+    setIngredientBlocks(tempBlocks);
+
+    let tempData = [ingredients];
+    tempData.splice(parent);
+    setIngredients(tempData);
+  }
+
   function addIngredientBlock() {
 
     setIngredients([
@@ -164,9 +178,7 @@ const NewRecipeStep2 = (props) => {
   }
   function closeModal() {
     setIsOpen(false);
-  }
-
-  console.log(ingredients);
+  }  
 
   function saveRecipe() {
     let recipe = {
@@ -178,9 +190,11 @@ const NewRecipeStep2 = (props) => {
     props.callback(recipe);
   }
 
+  console.log(ingredients);
+
   return (
     <div>
-      <input type="text" placeholder={name} onChange={changeRecipeName}>
+      <input type="text" value={recipeName} onChange={changeRecipeName}>
       </input>
       <button onClick={addIngredient}>
         +

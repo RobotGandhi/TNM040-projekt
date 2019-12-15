@@ -80,6 +80,7 @@ function App() {
   //callback functions 
   function addRecipe(newRecipe) {
     setRecipeList(recipeList.push(newRecipe));
+    setRecipeList(recipeList);
     console.log(recipeList);
   }
 
@@ -87,18 +88,16 @@ function App() {
     setTemporaryValues(tempArr);
   }
 
-  function sendData (recipeList) {
-    setRecipeList(recipeList);
+  function deleteRecipe (temp) {
+    setRecipeList(temp);
   }
   
- 
-
   return (
     <Router>
       <div>
         <Switch>
           <Route path="/listOfRecipes">
-            <ListOfRecipes recipeList={recipeList} callback={sendData} />
+            <ListOfRecipes data={recipeList} callback={deleteRecipe} />
           </Route>
           <Route path="/stepone">
             <NewRecipeStep1 data={recipeList} callback={storeTemporaryValues}/>

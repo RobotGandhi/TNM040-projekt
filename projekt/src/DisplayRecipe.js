@@ -14,9 +14,9 @@ const DisplayRecipe = (props) => {
                         {recipe.ingredients.map( ingredient =>
                             <div>
                                 <h2>Ingredients: </h2>
-                                <span>{ingredient.name} </span>
                                 <span>{ingredient.conversionResult} </span>
-                                <span>{ingredient.convertTo} </span>
+                                <span>{ingredient.ingredientConvertTo} </span>
+                                <span>{ingredient.ingredientName} </span>
                             </div>
                         )}
                     </ul>
