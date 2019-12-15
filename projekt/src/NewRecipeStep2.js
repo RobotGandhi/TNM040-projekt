@@ -8,7 +8,6 @@ const NewRecipeStep2 = (props) => {
   let convert = require('convert-units');
 
   const [recipeName, setRecipeName] = useState(name.name);
-  console.log(recipeName)
   const [recipeDescription, setRecipeDescription] = useState("");
 
   const [convertFromUnit, setConvertFromUnit] = useState("oz");
@@ -19,7 +18,7 @@ const NewRecipeStep2 = (props) => {
   const [ingredientAmount, setIngredientAmount] = useState(0.0);
   const [ingredientID, setIngredientID] = useState(1);
 
-  //let ingredientID = 1;
+  //let ingredientID = 0;
 
   const [ingredient, setIngredient] = useState({
     ingredientName: "",
@@ -27,23 +26,25 @@ const NewRecipeStep2 = (props) => {
     ingredientConvertFrom: "",
     ingredientConvertTo: "",
     conversionResult: 0.0,
-    ingredientId: ingredientID
+    ingredientId: 0
   });
 
 
-  const [ingredients, setIngredients] = useState([{
+  const [ingredients, setIngredients] = useState([
+    {
     ingredientName: "",
     ingredientAmount: 0.0,
-    ingredientConvertFrom: "",
-    ingredientConvertTo: "",
+    ingredientConvertFrom: "oz",
+    ingredientConvertTo: "mg",
     conversionResult: 0.0,
-    ingredientId: ingredientID
+    ingredientId: 0
   }]);
 
   const IngredientBlock = (props) => {
+  
     return (
       <div>
-        <form name={ingredientID}>
+        <form name={props.componentID}>
           <input name={"ingredientName"} type="text" className="ingredientName" onChange={changeIngredient}>
           </input>
           <input name={"ingredientAmount"} type="text" className="ingredientAmount" onChange={changeIngredient}>
@@ -93,95 +94,79 @@ const NewRecipeStep2 = (props) => {
     );
   }
 
-  const [ingredientBlocks, setIngredientBlocks] = useState([<IngredientBlock key={ingredientID} />]);
+  const [ingredientBlocks, setIngredientBlocks] = useState([<IngredientBlock key={0} componentID={0}/>]);
 
   function changeIngredient(event) {
-    let parent = event.target.parentElement.name;
-      setIngredient({
-        [event.target.name]: event.target.value
-      });
-    ingredients.map(ingredient => {
-      //Spread operator?
-      //ingredients.state.name för att få en uppdaterad state?
-      // https://learn.co/lessons/react-updating-state
-      if(ingredient.ingredientId === parent) {
-        setIngredients({
-            [event.target.name]: event.target.value
-        });
-      }
-    })
+    event.persist();
+    let parent = parseInt(event.target.parentElement.name);
+    
+    //add data to ingredients array
+    setIngredients((prevState) => ([
+      ...prevState.slice(0, parent),
+      {
+        ...prevState[parent],
+        [event.target.name]: event.target.value,
+        ['conversionResult']: convert(parseInt(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2),
+      },
+      ...prevState.slice(parent + 1)
+    ]));
+
+    //convert
+    let currentIngredient = ingredients[parent]; 
+    
+    currentIngredient.conversionResult = convert(parseInt(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2);
+    console.log(currentIngredient.conversionResult);
+
   }
+
+  console.log(ingredients);
+  /*useEffect(() => {
+    let currentIngredient = ingredients[0];
+    currentIngredient.conversionResult = convert(parseInt(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2);
+    console.log()
+  });*/
 
   function changeIngredientName(event) {
     setIngredientName(event.target.value);
   }
 
   function addIngredient() {
-    addIngredientBlock();
-    updateIngredientData();
     incrementIngredientID();
+    addIngredientBlock();
   }
 
   function addIngredientBlock() {
-    //ingredientBlocks.push(<IngredientBlock key={ingredientID} />)
+
     setIngredientBlocks([
-      ...ingredientBlocks,<IngredientBlock key={ingredientID}/>
+      ...ingredientBlocks, <IngredientBlock key={ingredientID} componentID={ingredientID}/>
     ]);
-  }
 
-  function incrementIngredientID () {
-    setIngredientID(ingredientID+1, () => setIngredientID(ingredientID));
-    //ingredientID++;
-  }
-
-  function updateIngredientData() {
-    ingredients.push(ingredient);
-    setIngredients(ingredients);
-  }
-
-  /*function blocksAndIngredients() {
-
-    incrementIngredientID();
-    ingredientBlocks.push(<IngredientBlock key={ingredientID} />);
-    setListOfIngredients([
+    setIngredients([
       ...ingredients,
       {
-        name: ingredientName,
-        amount: ingredientAmount,
-        unitFrom: convertFromUnit,
-        unitTo: convertToUnit,
-        conversionResult: convert(ingredientAmount).from(convertFromUnit).to(convertToUnit),
-        id: ingredientID
+        ingredientName: "",
+        ingredientAmount: 0.0,
+        ingredientConvertFrom: "oz",
+        ingredientConvertTo: "mg",
+        conversionResult: 0.0,
+        ingredientId: ingredientID
       }
-    ])
+    ]);
 
-    incrementIngredientCounter();
+  }
 
-  }*/
+  function incrementIngredientID() {
+    setIngredientID( prevState => (prevState + 1));
+    //++ingredientID;
+  }
+
+  
+  
 
   function changeDescription(event) {
     setRecipeDescription(event.target.value);
   }
 
-  /*function addIngredient() {
-    incrementIngredientID();
-    addIngredientData();
-    addIngredientBlock();
-  }*/
-
-  /*function addIngredientData() {
-    setListOfIngredients(ingredients.push(ingredient));
-    let ingredient =
-    {
-      name: ingredientName,
-      amount: ingredientAmount,
-      unitFrom: convertFromUnit,
-      unitTo: convertToUnit,
-
-      id: ingredientID
-    }
-    setListOfIngredients(listOfIngredients.push(ingredient));
-  }*/
 
   //Modal handling
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -195,7 +180,7 @@ const NewRecipeStep2 = (props) => {
     setIsOpen(false);
   }
 
-  console.log(ingredient);
+  //console.log(ingredient);
 
   return (
     <div>
