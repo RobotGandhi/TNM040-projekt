@@ -111,6 +111,9 @@ const NewRecipeStep2 = (props) => {
 	
 	console.log(dropdowns);
 	
+	Array.prototype.forEach.call(dropdowns, function(element){
+		console.log(element.name);
+	});
 	
     ingredients.forEach(element => {
 		currentIngredient = element;
