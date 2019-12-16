@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
 import Modal from 'react-modal';
 
@@ -27,17 +27,25 @@ const NewRecipeStep2 = (props) => {
 
 
   const IngredientBlock = (props) => {
+    const refInput = useRef();
+
+    useEffect(() => {
+      const {current} = refInput
+
+      current.focus();
+    });
+
 	return (
 	<div>
-		{ingredients.map( ingredient => (
+		{props.data.map( ingredient => (
 		  <div key={ingredient.ingredientID}>
 			<form name={ingredient.ingredientID}>
-			  <input name={"ingredientName"} value={ingredient.ingredientName} type="text" className="ingredientName" onChange={changeIngredient} key={"name"}>
+			  <input name={"ingredientName"} value={ingredient.ingredientName} type="text" className="ingredientName" onChange={(e) => changeIngredient(e)} key={"name"} ref={refInput}>
 			  </input>
-			  <input name={"ingredientAmount"} value={ingredient.ingredientAmount} type="text" className="ingredientAmount" onChange={changeIngredient} key={"amount"}>
+			  <input name={"ingredientAmount"} value={ingredient.ingredientAmount} type="text" className="ingredientAmount" onChange={(e) => changeIngredient(e)} key={"amount"} >
 			  </input>
 			  {from === "US-Custom" &&
-				<select name="ingredientConvertFrom" value={ingredient.ingredientConvertFrom} className="dropdown" onChange={changeIngredient}>
+				<select name="ingredientConvertFrom" value={ingredient.ingredientConvertFrom} className="dropdown" onChange={(e) => changeIngredient(e)}>
 				  <option value="oz">Ounces</option>
 				  <option value="lb">Pounds</option>
 				  <option value="fl-oz">Fluid Ounces</option>
@@ -47,7 +55,7 @@ const NewRecipeStep2 = (props) => {
 				  <option value="gal">Gallons</option>
 				</select>}
 			  {from === "Metric" &&
-				<select name="ingredientConvertFrom" value={ingredient.ingredientConvertFrom} className="dropdown" onChange={changeIngredient}>
+				<select name="ingredientConvertFrom" value={ingredient.ingredientConvertFrom} className="dropdown" onChange={(e) => changeIngredient(e)}>
 				  <option value="mg">Milligrams</option>
 				  <option value="g">Grams</option>
 				  <option value="kg">Kilograms</option>
@@ -58,12 +66,12 @@ const NewRecipeStep2 = (props) => {
 
 			  <span> To </span>
 			  {to === "US-Custom" && mass.indexOf(ingredient.ingredientConvertFrom) > -1 &&
-			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={changeIngredient}>
+			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={(e) => changeIngredient(e)}>
 				  <option value="oz">Ounces</option>
 				  <option value="lb">Pounds</option>
 				</select>}
 			  {to === "US-Custom" && volume.indexOf(ingredient.ingredientConvertFrom) > -1 &&
-			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={changeIngredient}>
+			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={(e) =>changeIngredient(e)}>
 				  <option value="fl-oz">Fluid Ounces</option>
 				  <option value="cup">Cups</option>
 				  <option value="pnt">Pints</option>
@@ -71,13 +79,13 @@ const NewRecipeStep2 = (props) => {
 				  <option value="gal">Gallons</option>
 				</select>}
 			  {to === "Metric" && mass.indexOf(ingredient.ingredientConvertFrom) > -1 &&
-			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={changeIngredient}>
+			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={(e)=> changeIngredient(e)}>
 				  <option value="mg">Milligrams</option>
 				  <option value="g">Grams</option>
 				  <option value="kg">Kilograms</option>
 				</select>}
 			  {to === "Metric" && volume.indexOf(ingredient.ingredientConvertFrom) > -1 &&
-			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={changeIngredient}>
+			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={(e) => changeIngredient(e)}>
 				  <option value="ml">Milliliters</option>
 				  <option value="dl">Deciliters</option>
 				  <option value="l">Liters</option>
@@ -186,7 +194,7 @@ const NewRecipeStep2 = (props) => {
         +
       </button>
       <div>
-        <IngredientBlock/>
+        <IngredientBlock data={ingredients}/>
       </div>
       <button onClick={openModal}>Save</button>
       <Modal className="descriptionModal"
