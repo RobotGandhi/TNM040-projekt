@@ -22,14 +22,15 @@ const NewRecipeStep2 = (props) => {
     ingredientConvertFrom: from === "US-Custom" ? "oz" : "mg",
     ingredientConvertTo: to === "US-Custom" ? "oz" : "mg",
     conversionResult: 0.0,
-    ingredientId: 0
+    ingredientID: 0
   }]);
 
 
   const IngredientBlock = (props) => {
 	return (
       <div>
-        <form name={props.componentID}>
+        {console.log(props.data.ingredientID)}
+        <form name={props.data.ingredientID}>
           <input name={"ingredientName"} type="text" className="ingredientName" onChange={changeIngredient}>
           </input>
           <input name={"ingredientAmount"} type="text" className="ingredientAmount" onChange={changeIngredient}>
@@ -78,8 +79,6 @@ const NewRecipeStep2 = (props) => {
     );
   }
 
-  const [ingredientBlocks, setIngredientBlocks] = useState([<IngredientBlock key={0} componentID={0}/>]);
-
   function changeIngredient(event) {
     event.persist();
     let parent = parseInt(event.target.parentElement.name);
@@ -104,16 +103,16 @@ const NewRecipeStep2 = (props) => {
   //convert each ingredient
   useEffect(() => {
     let currentIngredient, currentBlock;
-	const volume = ["fl-oz", "cup", "pnt", "qt", "gal", "ml", "dl", "l"];
-	const mass = ["oz", "lb", "mg", "g", "kg"];
-	
-	let dropdowns = document.getElementsByClassName("dropdown");
-	
-	console.log(dropdowns);
-	
-	Array.prototype.forEach.call(dropdowns, function(element){
-		console.log(element.name);
-	});
+    const volume = ["fl-oz", "cup", "pnt", "qt", "gal", "ml", "dl", "l"];
+    const mass = ["oz", "lb", "mg", "g", "kg"];
+    
+    let dropdowns = document.getElementsByClassName("dropdown");
+    
+    console.log(dropdowns);
+    
+    Array.prototype.forEach.call(dropdowns, function(element){
+      console.log(element.name);
+    });
 	
     ingredients.forEach(element => {
 		currentIngredient = element;
@@ -125,45 +124,29 @@ const NewRecipeStep2 = (props) => {
 		}
 		currentIngredient.conversionResult = convert(parseInt(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2);
     });
-  });
+  }, ![ingredients]);
 
   function addIngredient() {
     incrementIngredientID();
-    addIngredientBlock();
-  }
-
-  function deleteIngredient(event){
-    
-    let parent = event.target.parentElement.name;
-
-    let tempBlocks = [ingredientBlocks];
-    tempBlocks.splice(parent);
-    setIngredientBlocks(tempBlocks);
-
-    let tempData = [ingredients];
-    tempData.splice(parent);
-    setIngredients(tempData);
-  }
-
-  function addIngredientBlock() {
-
     setIngredients([
       ...ingredients,
       {
         ingredientName: "",
         ingredientAmount: 0.0,
-		ingredientConvertFrom: from === "US-Custom" ? "oz" : "mg",
-		ingredientConvertTo: to === "US-Custom" ? "oz" : "mg",
+        ingredientConvertFrom: from === "US-Custom" ? "oz" : "mg",
+        ingredientConvertTo: to === "US-Custom" ? "oz" : "mg",
         conversionResult: 0.0,
-        ingredientId: ingredientID
+        ingredientID: ingredientID
       }
     ]);
-	
-	
-	setIngredientBlocks([
-      ...ingredientBlocks, <IngredientBlock key={ingredientID} componentID={ingredientID}/>
-    ]);
+  }
 
+  function deleteIngredient(event){
+    
+    let parent = event.target.parentElement.name;
+    console.log(parent);
+    let tempData = ingredients.filter(ingredient => ingredient.ingredientID != parent);
+    setIngredients(tempData);
   }
 
   function incrementIngredientID() {
@@ -211,7 +194,7 @@ const NewRecipeStep2 = (props) => {
         +
         </button>
       <div>
-        {ingredientBlocks}
+        {ingredients.map(ingredient => <IngredientBlock key={ingredient.ingredientID} data={ingredient}/>)}
       </div>
       <button onClick={openModal}>Save</button>
       <Modal className="descriptionModal"
