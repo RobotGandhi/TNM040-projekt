@@ -6,8 +6,10 @@ const NewRecipeStep2 = (props) => {
 
   let { from, to, name } = useParams();
   let convert = require('convert-units');
+  
+  console.log(name);
 
-  const [recipeName, setRecipeName] = useState(name.name);
+  const [recipeName, setRecipeName] = useState(name);
   const [recipeDescription, setRecipeDescription] = useState("");
   const [convertFromUnit, setConvertFromUnit] = useState(from === "US-Custom" ? "oz" : "mg");
   const [convertToUnit, setConvertToUnit] = useState(to === "US-Custom" ? "mg" : "oz");
@@ -104,6 +106,12 @@ const NewRecipeStep2 = (props) => {
     let currentIngredient, currentBlock;
 	const volume = ["fl-oz", "cup", "pnt", "qt", "gal", "ml", "dl", "l"];
 	const mass = ["oz", "lb", "mg", "g", "kg"];
+	
+	let dropdowns = document.getElementsByClassName("dropdown");
+	
+	console.log(dropdowns);
+	
+	
     ingredients.forEach(element => {
 		currentIngredient = element;
 		if(volume.indexOf(currentIngredient.ingredientConvertFrom) > -1 && mass.indexOf(currentIngredient.ingredientConvertTo) > -1) {
