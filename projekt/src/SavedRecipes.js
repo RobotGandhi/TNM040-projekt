@@ -23,9 +23,6 @@ const ListOfRecipes = (props) => {
       {props.data.map(recipe => 
       <div className ="recipeBlock">
         <div className = "recipeElement">
-          <Link to={"/" + recipe.name}>
-            <h1>{recipe.name}</h1>
-          </Link>
           <button id={recipe.id} onClick={openModal}>
             {recipe.name}
           </button>
