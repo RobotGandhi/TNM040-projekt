@@ -201,6 +201,7 @@ const NewRecipeStep2 = (props) => {
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
+        ariaHideApp={false}
         contentLabel="Example Modal">
         <div>
           <h3>{recipeName}</h3>
@@ -209,7 +210,7 @@ const NewRecipeStep2 = (props) => {
           </form>
           <div onClick={closeModal} className="buttonModal" >Back</div>
           <Link to={"/listOfRecipes"}>
-            <button className="buttonModal" onClick={saveRecipe}>Save</button>
+            <div className="buttonModal" onClick={saveRecipe}>Save</div>
           </Link>
 
         </div>
