@@ -167,6 +167,20 @@ a {
   color: white;
 }
 
+.headerBook{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 0px;
+  padding: 3px;
+  font-size: 30px;
+  background-color:#F55056;
+  color: white;
+  position:fixed;
+  width: 100%;
+}
+
 .navHeader{
   position: fixed;
   right: 0;
@@ -340,6 +354,12 @@ a {
 .sorry {
   margin:auto;
   width: 80%;
+}
+
+.bookOfRecipesContent{
+  overflow: auto;
+  padding-top: 60px;
+  height: 82vh;
 }
 
 .sorry p{
