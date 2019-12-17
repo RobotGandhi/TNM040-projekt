@@ -21,7 +21,10 @@ const ListOfRecipes = (props) => {
 
   return (
     <div>
-      <h1 className="header">Book of Recipes</h1>
+      <div>
+    <h1 className="headerBook">Book of Recipes</h1>
+      </div>
+    <div className ="bookOfRecipesContent">
       {console.log(props.data.length)}
       {props.data.length == 0 &&
       <div className = "sorry-parent">
@@ -76,7 +79,7 @@ const ListOfRecipes = (props) => {
       )}
 
       {/*TEMPORARY FOR EASY STYLING*/}
-      {/* 
+      { /*
       <div className="recipeBlock">
         <div className="recipeElement" onClick={openModal}>
           <h1>Recipe name</h1>
@@ -107,8 +110,9 @@ Vestibulum eu est purus. Nullam condimentum dui scelerisque lacus congue, et mal
           </div>
         </Modal>
       </div>
-        */}
+      */}
       {/*TEMPORARY FOR EASY STYLING*/}
+    </div>
     </div>
   )
 
