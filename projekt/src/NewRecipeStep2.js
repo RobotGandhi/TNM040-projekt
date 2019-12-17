@@ -25,9 +25,11 @@ const NewRecipeStep2 = (props) => {
     ingredientID: 0
   }]);
 
-  
+  const refDescription = useRef();
+
   const [input1IsFocused, setInput1IsFocused] = useState(false);
   const [input2IsFocused, setInput2IsFocused] = useState(false);
+  const [descriptionIsFocused, setDescriptionIsFocused] = useState(false);
 
   const IngredientBlock = (props) => {
 
@@ -146,6 +148,11 @@ const NewRecipeStep2 = (props) => {
 		}
 		currentIngredient.conversionResult = convert(parseInt(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2);
     });
+    //focus description
+    if(descriptionIsFocused){
+      refDescription.current.focus();
+    }
+
   });
 
   function addIngredient() {
@@ -193,7 +200,13 @@ const NewRecipeStep2 = (props) => {
   }
   function closeModal() {
     setIsOpen(false);
+    setDescriptionIsFocused(false);
   }  
+
+  function focusDescription(){
+    setDescriptionIsFocused(true);
+  }
+
 
   function saveRecipe() {
     let recipe = {
@@ -220,15 +233,16 @@ const NewRecipeStep2 = (props) => {
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
+        ariaHideApp={false}
         contentLabel="Example Modal">
         <div>
           <h3>{recipeName}</h3>
           <form>
-            <textarea type="text" onChange={changeDescription} className="descriptionField" />
+            <textarea type="text" onChange={changeDescription} className="descriptionField" onFocus={focusDescription} ref={refDescription}/>
           </form>
           <div onClick={closeModal} className="buttonModal" >Back</div>
           <Link to={"/listOfRecipes"}>
-            <button className="buttonModal" onClick={saveRecipe}>Save</button>
+            <div className="buttonModal" onClick={saveRecipe}>Save</div>
           </Link>
 
         </div>
