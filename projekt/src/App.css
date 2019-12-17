@@ -129,6 +129,20 @@ a {
   color: white;
 }
 
+.headerBook{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 0px;
+  padding: 3px;
+  font-size: 30px;
+  background-color:#F55056;
+  color: white;
+  position:fixed;
+  width: 100%;
+}
+
 .navHeader{
   position: fixed;
   right: 0;
@@ -232,6 +246,7 @@ a {
 }
 
 .textInput {
+  padding-left: 2px;
   height: 4.5vh;
   background-color: white;
   width: 100%;
@@ -240,6 +255,7 @@ a {
 }
 
 .textInputGray {
+  padding-left: 2px;
   height: 4.5vh;
   background-color: rgb(230, 230, 230);
   width: 100%;
@@ -271,19 +287,47 @@ a {
 .dropdown-content {
 }
 
-.bookOfRecipesDescription{
-  overflow: auto; 
-  height: 62vh;
-  background-color: white;
-  margin-bottom: 15px;
+.recipeTitle {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align:center;
 }
 
-.descriptionModal h3 {
-  text-align: center;
-  margin-top: 0px;
+.bookOfRecipesDescription{
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  overflow: auto; 
+  height: 60vh;
+  background-color: white;
+  margin-bottom: 15px;
+  padding: 4px;
+}
+
+.sorry {
+  margin:auto;
+  width: 80%;
+}
+
+.bookOfRecipesContent{
+  overflow: auto;
+  padding-top: 60px;
+  height: 82vh;
+}
+
+.sorry p{
+  text-align:center;
+  padding-top: 250px;
+  font-size: 22px;
+  font-family: 'Lato', sans-serif;
+  color: rgb(165, 165, 165);
+
+  
 }
 
 .descriptionModal {
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  
   position: absolute; 
   top: 5%;   
   left: 5%; 
@@ -295,6 +339,15 @@ a {
   border-radius: 4px; 
   outline: none; 
   padding: 20px;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.descriptionHeader {
+  margin-top: 15px;
 }
 
 .descriptionField {
