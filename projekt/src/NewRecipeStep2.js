@@ -25,14 +25,15 @@ const NewRecipeStep2 = (props) => {
     conversionResult: 0.0,
     ingredientID: 0
   }]);
-
+  
+  
   const refDescription = useRef();
-  
-
-  
+  const refRecipeName = useRef();
+   
   const [focusedInput1, setFocusedInput1] = useState();
   const [focusedInput2, setFocusedInput2] = useState();
   const [descriptionIsFocused, setDescriptionIsFocused] = useState(false);
+  const [recipeNameIsFocused, setRecipeNameIsFocused] = useState(false);
 
   const IngredientBlock = (props) => {
 
@@ -43,13 +44,15 @@ const NewRecipeStep2 = (props) => {
       if(event.target.name == "ingredientName"){
         setFocusedInput1(parseInt(event.target.id)); 
         setFocusedInput2();
+        setRecipeNameIsFocused(false);
       }
       else if(event.target.name == "ingredientAmount"){ 
         setFocusedInput2(parseInt(event.target.id))
         setFocusedInput1();
+        setRecipeNameIsFocused(false);
       }
     }
-
+    
     //inorder to refocus inputs when components rerender
     useEffect(() => {
       ingredientInputRef1.current = ingredientInputRef1.current.slice(0, props.data.length);
@@ -123,7 +126,7 @@ const NewRecipeStep2 = (props) => {
             <option value="l">Liters</option>
           </select>}
         </div>
-				<div className="buttonNewRecipe deleteButton" onClick={deleteIngredient}>Delete</div>
+				<div className="buttonNewRecipe deleteButtonNewRecipe" onClick={deleteIngredient}>Delete</div>
 			</form>
 		  </div>
 		))
@@ -170,6 +173,9 @@ const NewRecipeStep2 = (props) => {
     //focus description
     if(descriptionIsFocused){
       refDescription.current.focus();
+    }
+    if(recipeNameIsFocused){
+      refRecipeName.current.focus();
     }
 
   });
@@ -228,6 +234,12 @@ const NewRecipeStep2 = (props) => {
     setDescriptionIsFocused(true);
   }
 
+  function focusRecipeName(){
+    setRecipeNameIsFocused(true);
+    setFocusedInput1();
+    setFocusedInput2();
+  }
+
 
   function saveRecipe() {
     let recipe = {
@@ -243,7 +255,7 @@ const NewRecipeStep2 = (props) => {
     <main>
       <h1 className="header">New Recipe</h1>
       <div className="boxNewRecipe2">
-        <input className="textInputNewRecipe2 recipeNameHeader" type="text" value={recipeName} onChange={changeRecipeName} placeholde="Recipe name">
+        <input className="textInputNewRecipe2 recipeNameHeader" type="text" value={recipeName} onChange={changeRecipeName} placeholde="Recipe name" ref={refRecipeName} onFocus={focusRecipeName} >
         </input>
       </div>
       
