@@ -289,9 +289,19 @@ a {
   padding: 4px;
 }
 
-.descriptionModal h3 {
-  text-align: center;
-  margin-top: 0px;
+.sorry {
+  margin:auto;
+  width: 80%;
+}
+
+.sorry p{
+  text-align:center;
+  padding-top: 250px;
+  font-size: 22px;
+  font-family: 'Lato', sans-serif;
+  color: rgb(165, 165, 165);
+
+  
 }
 
 .descriptionModal {

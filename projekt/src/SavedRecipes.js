@@ -21,7 +21,17 @@ const ListOfRecipes = (props) => {
   return (
     <div>
       <h1 className="header">Book of Recipes</h1>
+      {console.log(props.data.length)}
+      {props.data.length == 0 &&
+      <div className = "sorry-parent">
+        <div className ="sorry">
+          <p>You have no saved recipes :(</p>  
+        </div>
+      </div>
+      }
       {props.data.map(recipe =>
+      <div key={recipe.id}>
+
         <div className="recipeBlock">
           <div className="recipeElement" onClick={openModal}>
             <h1 id={recipe.id}>{recipe.name}</h1>
@@ -31,6 +41,7 @@ const ListOfRecipes = (props) => {
                   isOpen={modalIsOpen}
                   onAfterOpen={afterOpenModal}
                   onRequestClose={closeModal}
+                  ariaHideApp={false}
                   data-target={recipe.id}
                   data={recipe}>
                   <div>
@@ -38,7 +49,7 @@ const ListOfRecipes = (props) => {
                     <div className="bookOfRecipesDescription">
                       <h2>Ingredients: </h2>
                       {recipe.ingredients.map(ingredient =>
-                        <div>
+                        <div key={ingredient.ingredientID}>
                           {ingredient.conversionResult}
                           {ingredient.ingredientConvertTo + " "} 
                           {ingredient.ingredientName}
@@ -60,6 +71,7 @@ const ListOfRecipes = (props) => {
             x
           </div>
         </div>
+      </div>
       )}
 
       {/*TEMPORARY FOR EASY STYLING*/}
