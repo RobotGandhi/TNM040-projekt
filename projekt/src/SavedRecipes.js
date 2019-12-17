@@ -7,15 +7,15 @@ const ListOfRecipes = (props) => {
   console.log(props.data);
 
   const [modalIsOpen, setIsOpen] = useState(false);
-  function openModal() {
+  const [openID, setOpenID] = useState();
+  function openModal(event) {
+    setOpenID(event.target.id);
     setIsOpen(true);
   }
   function afterOpenModal() {
     //References are synced and can be accesssed here.
   }
-  function closeModal(e) {
-    e.stopPropagation(); 
-    setIsOpen(false);
+  function closeModal() {
   }
 
   return (
@@ -25,15 +25,14 @@ const ListOfRecipes = (props) => {
         <div className="recipeBlock">
           <div className="recipeElement" onClick={openModal}>
             <h1 id={recipe.id}>{recipe.name}</h1>
-            <Modal className="descriptionModal"
-              isOpen={modalIsOpen}
-              onAfterOpen={afterOpenModal}
-              onRequestClose={closeModal}
-              data-target={recipe.id}
-              data={recipe}
-            >
-              <div>
-                {props.data.filter(r => r.id === recipe.id).map(recipe =>
+            <div>
+              {openID == recipe.id &&
+                <Modal className="descriptionModal"
+                  isOpen={modalIsOpen}
+                  onAfterOpen={afterOpenModal}
+                  onRequestClose={closeModal}
+                  data-target={recipe.id}
+                  data={recipe}>
                   <div>
                     <h2 className="recipeTitle">{recipe.name}</h2>
                     <div className="bookOfRecipesDescription">
@@ -41,20 +40,21 @@ const ListOfRecipes = (props) => {
                       {recipe.ingredients.map(ingredient =>
                         <div>
                           {ingredient.conversionResult}
-                          {ingredient.ingredientConvertTo}
+                          {ingredient.ingredientConvertTo + " "} 
                           {ingredient.ingredientName}
                         </div>
                       )}
-                      <h2>Description:</h2>
+                      <h2 className ="descriptionHeader">Description:</h2>
                       <div>
+                        <br/>
                         {recipe.description}
                       </div>
                     </div>
+                  <div className="button" onClick={closeModal}>Back</div>
                   </div>
-                )}
-                <div onClick={closeModal} className="button" >Back</div>
-              </div>
-            </Modal>
+                </Modal>
+              }
+            </div>
           </div>
           <div className="deleteButton" id={recipe.id} onClick={deleteRecipe}>
             x
