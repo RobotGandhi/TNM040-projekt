@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
+import Modal from 'react-modal';
 
 const ListOfRecipes = (props) => {
 
   console.log(props.data);
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+  function openModal() {
+    setIsOpen(true);
+  }
+  function afterOpenModal() {
+    //References are synced and can be accesssed here.
+  }
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   return (
     <div>
@@ -14,6 +26,38 @@ const ListOfRecipes = (props) => {
           <Link to={"/" + recipe.name}>
             <h1>{recipe.name}</h1>
           </Link>
+          <button id={recipe.id} onClick={openModal}>
+            {recipe.name}
+          </button>
+          <Modal 
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          data-target={recipe.id}
+          data={recipe}
+          >
+            <div>
+              {props.data.filter(r => r.id === recipe.id).map(recipe =>
+                  <div>
+                      <h1>{recipe.name}</h1>
+                      <ul>
+                          {recipe.ingredients.map( ingredient =>
+                              <div>
+                                  <h2>Ingredients: </h2>
+                                  <span>{ingredient.conversionResult} </span>
+                                  <span>{ingredient.ingredientConvertTo} </span>
+                                  <span>{ingredient.ingredientName} </span>
+                             </div>
+                         )}
+                      </ul>
+                      <h2>Description: </h2>
+                      <div>
+                        {recipe.description}
+                      </div>
+                </div>
+              )}
+            </div>
+          </Modal>
         </div>
           <div className = "deleteButton" id={recipe.id} onClick={deleteRecipe}>
             x
