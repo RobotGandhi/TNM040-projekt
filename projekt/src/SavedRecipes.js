@@ -7,16 +7,32 @@ const ListOfRecipes = (props) => {
 
   return (
     <div>
+      <h1 className="header">Book of Recipes</h1>
       {props.data.map(recipe => 
-        <div>
+      <div className ="recipeBlock">
+        <div className = "recipeElement">
           <Link to={"/" + recipe.name}>
             <h1>{recipe.name}</h1>
           </Link>
-          <button id={recipe.id} onClick={deleteRecipe}>
-            Delete
-          </button>
         </div>
+          <div className = "deleteButton" id={recipe.id} onClick={deleteRecipe}>
+            x
+          </div>
+      </div>
       )}
+
+      {/*TEMPORARY FOR EASY STYLING*/}
+        <div className = "recipeBlock">
+          <div className = "recipeElement">
+            <Link to="">
+              <h1>Recipe name</h1>
+            </Link>
+          </div>
+          <div className = "deleteButton">
+            x
+          </div>
+        </div>
+      {/*TEMPORARY FOR EASY STYLING*/}
     </div>
   )
   

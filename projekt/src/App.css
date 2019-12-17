@@ -56,6 +56,7 @@
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 .newRecipe1 input{
@@ -195,6 +196,39 @@ a {
 }
 #namnge{
   width: 100%;
+}
+
+.recipeBlock{
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.deleteButton {
+  margin-top: 16px;
+  background-color:#F6707B;
+  box-shadow: 3px 3px 3px rgb(212, 211, 211);
+  height: 40px;
+  line-height: 35px;
+  margin-left: 0;
+  width: 40px;
+  text-align:center;
+  color: white;
+}
+
+.recipeElement{
+  margin-top: 0px;
+  margin-left: 0;
+  margin-right: 0;
+  background-color: #F2F2F2;
+  box-shadow: 3px 3px 3px rgb(212, 211, 211);
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  width: 85%;
+}
+
+.recipeElement h1{
+  margin-left: 45px;
 }
 
 .textInput {
