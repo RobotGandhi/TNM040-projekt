@@ -273,11 +273,20 @@ a {
 .dropdown-content {
 }
 
+.recipeTitle {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align:center;
+}
+
 .bookOfRecipesDescription{
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
   overflow: auto; 
-  height: 62vh;
+  height: 60vh;
   background-color: white;
   margin-bottom: 15px;
+  padding: 4px;
 }
 
 .descriptionModal h3 {
@@ -286,6 +295,9 @@ a {
 }
 
 .descriptionModal {
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  
   position: absolute; 
   top: 5%;   
   left: 5%; 
