@@ -58,9 +58,7 @@ const NewRecipeStep1 = (props) => {
           </Link>
         </div>
       </div>
-
     </div>
-
   );
 
 }
