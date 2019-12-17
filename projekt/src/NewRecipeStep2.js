@@ -26,44 +26,53 @@ const NewRecipeStep2 = (props) => {
   }]);
 
   const refDescription = useRef();
+  
 
-  const [input1IsFocused, setInput1IsFocused] = useState(false);
-  const [input2IsFocused, setInput2IsFocused] = useState(false);
+  
+  const [focusedInput1, setFocusedInput1] = useState();
+  const [focusedInput2, setFocusedInput2] = useState();
   const [descriptionIsFocused, setDescriptionIsFocused] = useState(false);
 
   const IngredientBlock = (props) => {
 
-    const refInput1 = useRef();
-    const refInput2 = useRef();
+    const ingredientInputRef1 = useRef([]);
+    const ingredientInputRef2 = useRef([]);
 
     function inputFocus(event){
       if(event.target.name == "ingredientName"){
-        setInput1IsFocused(true);
-        setInput2IsFocused(false);
+        setFocusedInput1(parseInt(event.target.id)); 
+        setFocusedInput2();
       }
-      else if(event.target.name == "ingredientAmount"){
-        setInput1IsFocused(false);
-        setInput2IsFocused(true);
+      else if(event.target.name == "ingredientAmount"){ 
+        setFocusedInput2(parseInt(event.target.id))
+        setFocusedInput1();
       }
     }
 
+    //inorder to refocus inputs when components rerender
     useEffect(() => {
-      if(input1IsFocused) {       
-        refInput1.current.focus();
+      ingredientInputRef1.current = ingredientInputRef1.current.slice(0, props.data.length);
+      ingredientInputRef2.current = ingredientInputRef2.current.slice(0, props.data.length);
+    }, [props.data]);
+
+    useEffect(() => {
+      if(focusedInput1 != undefined){
+        ingredientInputRef1.current[focusedInput1].focus();
       }
-      else if(input2IsFocused){
-        refInput2.current.focus();
-      }     
+      else if(focusedInput2 != undefined){
+        ingredientInputRef2.current[focusedInput2].focus();
+      }
+        
     });
 
 	return (
 	<div>
-		{props.data.map( ingredient => (
+		{props.data.map( (ingredient, i) => (
 		  <div key={ingredient.ingredientID}>
 			<form name={ingredient.ingredientID}>
-			  <input name={"ingredientName"} value={ingredient.ingredientName} type="text" className="ingredientName" onChange={changeIngredient} key={"name"} ref={refInput1} onFocus={inputFocus}>
+			  <input name={"ingredientName"} value={ingredient.ingredientName} type="text" className="ingredientName" onChange={changeIngredient} ref={el => ingredientInputRef1.current[i] = el} onFocus={inputFocus} id={i}>
 			  </input>
-			  <input name={"ingredientAmount"} value={ingredient.ingredientAmount} type="text" className="ingredientAmount" onChange={changeIngredient} key={"amount"} ref={refInput2} onFocus={inputFocus}>
+			  <input name={"ingredientAmount"} value={ingredient.ingredientAmount} type="text" className="ingredientAmount" onChange={changeIngredient} ref={el => ingredientInputRef2.current[i] = el} onFocus={inputFocus} id={i}>
 			  </input>
 			  {from === "US-Custom" &&
 				<select name="ingredientConvertFrom" value={ingredient.ingredientConvertFrom} className="dropdown" onChange={changeIngredient}>
@@ -226,7 +235,7 @@ const NewRecipeStep2 = (props) => {
         +
       </button>
       <div>
-        <IngredientBlock data={ingredients}/>
+        <IngredientBlock data={ingredients} />
       </div>
       <button onClick={openModal}>Save</button>
       <Modal className="descriptionModal"
