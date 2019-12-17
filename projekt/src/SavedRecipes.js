@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
 import Modal from 'react-modal';
 
@@ -7,7 +7,7 @@ const ListOfRecipes = (props) => {
   console.log(props.data);
 
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [openID, setOpenID] = useState();
+  const [openID, setOpenID] = useState(0);
   function openModal(event) {
     setOpenID(event.target.id);
     setIsOpen(true);
@@ -16,6 +16,7 @@ const ListOfRecipes = (props) => {
     //References are synced and can be accesssed here.
   }
   function closeModal() {
+    setIsOpen(false);
   }
 
   return (
@@ -31,19 +32,19 @@ const ListOfRecipes = (props) => {
       }
       {props.data.map(recipe =>
       <div key={recipe.id}>
-
         <div className="recipeBlock">
-          <div className="recipeElement" onClick={openModal}>
+          <div id ={recipe.id} className="recipeElement">
+            <div onClick={openModal}>
             <h1 id={recipe.id}>{recipe.name}</h1>
+            </div>
             <div>
               {openID == recipe.id &&
                 <Modal className="descriptionModal"
                   isOpen={modalIsOpen}
-                  onAfterOpen={afterOpenModal}
                   onRequestClose={closeModal}
                   ariaHideApp={false}
-                  data-target={recipe.id}
-                  data={recipe}>
+                  onAfterOpen={afterOpenModal}
+                  >
                   <div>
                     <h2 className="recipeTitle">{recipe.name}</h2>
                     <div className="bookOfRecipesDescription">
