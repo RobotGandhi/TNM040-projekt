@@ -57,14 +57,21 @@ const NewRecipeStep2 = (props) => {
     });
 
 	return (
-	<div>
+    <div>
+	<div className="box">
+   <div className="box-in-box">
 		{props.data.map( ingredient => (
-		  <div key={ingredient.ingredientID}>
-			<form name={ingredient.ingredientID}>
+		  <div className="margintop" key={ingredient.ingredientID}>
+			<form className="form" name={ingredient.ingredientID}>
+        <div className="quickConvert">
+        <div id="textfalt">
 			  <input name={"ingredientName"} value={ingredient.ingredientName} type="text" className="ingredientName" onChange={changeIngredient} key={"name"} ref={refInput1} onFocus={inputFocus}>
-			  </input>
+        </input></div>
+         <div className = "daddyCool">
+        <div id = "ingegerdAmount">
 			  <input name={"ingredientAmount"} value={ingredient.ingredientAmount} type="text" className="ingredientAmount" onChange={changeIngredient} key={"amount"} ref={refInput2} onFocus={inputFocus}>
-			  </input>
+			  </input></div>
+        <div className = "child">
 			  {from === "US-Custom" &&
 				<select name="ingredientConvertFrom" value={ingredient.ingredientConvertFrom} className="dropdown" onChange={changeIngredient}>
 				  <option value="oz">Ounces</option>
@@ -84,38 +91,46 @@ const NewRecipeStep2 = (props) => {
 				  <option value="dl">Deciliters</option>
 				  <option value="l">Liters</option>
 			  </select>}
-
+        </div>
 			  <span> To </span>
-			  {to === "US-Custom" && mass.indexOf(ingredient.ingredientConvertFrom) > -1 &&
-			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={changeIngredient}>
-				  <option value="oz">Ounces</option>
-				  <option value="lb">Pounds</option>
-				</select>}
-			  {to === "US-Custom" && volume.indexOf(ingredient.ingredientConvertFrom) > -1 &&
-			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={changeIngredient}>
-				  <option value="fl-oz">Fluid Ounces</option>
-				  <option value="cup">Cups</option>
-				  <option value="pnt">Pints</option>
-				  <option value="qt">Quarts</option>
-				  <option value="gal">Gallons</option>
-				</select>}
-			  {to === "Metric" && mass.indexOf(ingredient.ingredientConvertFrom) > -1 &&
-			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={changeIngredient}>
-				  <option value="mg">Milligrams</option>
-				  <option value="g">Grams</option>
-				  <option value="kg">Kilograms</option>
-				</select>}
-			  {to === "Metric" && volume.indexOf(ingredient.ingredientConvertFrom) > -1 &&
-			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={changeIngredient}>
-				  <option value="ml">Milliliters</option>
-				  <option value="dl">Deciliters</option>
-				  <option value="l">Liters</option>
-				</select>}
-				<button type="button" onClick={deleteIngredient}>Delete</button>
+        <div className = "child2">
+  			  {to === "US-Custom" && mass.indexOf(ingredient.ingredientConvertFrom) > -1 &&
+  			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={changeIngredient}>
+  				  <option value="oz">Ounces</option>
+  				  <option value="lb">Pounds</option>
+  				</select>}
+  			  {to === "US-Custom" && volume.indexOf(ingredient.ingredientConvertFrom) > -1 &&
+  			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={changeIngredient}>
+  				  <option value="fl-oz">Fluid Ounces</option>
+  				  <option value="cup">Cups</option>
+  				  <option value="pnt">Pints</option>
+  				  <option value="qt">Quarts</option>
+  				  <option value="gal">Gallons</option>
+  				</select>}
+  			  {to === "Metric" && mass.indexOf(ingredient.ingredientConvertFrom) > -1 &&
+  			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={changeIngredient}>
+  				  <option value="mg">Milligrams</option>
+  				  <option value="g">Grams</option>
+  				  <option value="kg">Kilograms</option>
+  				</select>}
+  			  {to === "Metric" && volume.indexOf(ingredient.ingredientConvertFrom) > -1 &&
+  			  <select name="ingredientConvertTo" value={ingredient.ingredientConvertTo} className="dropdown" onChange={changeIngredient}>
+  				  <option value="ml">Milliliters</option>
+  				  <option value="dl">Deciliters</option>
+  				  <option value="l">Liters</option>
+  				</select>}
+        </div>
+        </div>
+        </div>
+				<div type="button" onClick={deleteIngredient} className="button2">Delete</div>
+
 			</form>
+
 		  </div>
 		))}
+    </div>
 	</div>
+      </div>
     );
   }
 
@@ -219,16 +234,19 @@ const NewRecipeStep2 = (props) => {
   }
 
   return (
-    <div>
-      <input type="text" value={recipeName} onChange={changeRecipeName}>
+     <div id="scrollBox">
+   <h1 className="header">New Recipe</h1>
+   
+      <input type="text" value={recipeName} id="centererad" onChange={changeRecipeName}>
       </input>
-      <button onClick={addIngredient}>
-        +
-      </button>
+      
       <div>
         <IngredientBlock data={ingredients}/>
       </div>
-      <button onClick={openModal}>Save</button>
+      <div onClick={addIngredient} className="button2">
+        +
+      </div>
+      <div onClick={openModal} className="saveButton">Save</div>
       <Modal className="descriptionModal"
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
