@@ -7,7 +7,9 @@ const ListOfRecipes = (props) => {
   console.log(props.data);
 
   const [modalIsOpen, setIsOpen] = useState(false);
-  function openModal() {
+  const [openID, setOpenID] = useState();
+  function openModal(event) {
+    setOpenID(event.target.id);
     setIsOpen(true);
   }
   function afterOpenModal() {
@@ -16,7 +18,7 @@ const ListOfRecipes = (props) => {
   function closeModal() {
     setIsOpen(false);
   }
-
+  //let oneRecipe = props.data;
   return (
     <div>
       <h1 className="header">Book of Recipes</h1>
@@ -26,15 +28,19 @@ const ListOfRecipes = (props) => {
           <button id={recipe.id} onClick={openModal}>
             {recipe.name}
           </button>
-          <Modal 
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          data-target={recipe.id}
-          data={recipe}
-          >
+          
+            {console.log(openID)}
+            {console.log(recipe.id)}
+            {console.log(openID == recipe.id)}
             <div>
-              {props.data.filter(r => r.id === recipe.id).map(recipe =>
+              {openID == recipe.id &&
+              <Modal 
+              isOpen={modalIsOpen}
+              onAfterOpen={afterOpenModal}
+              onRequestClose={closeModal}
+              data-target={recipe.id}
+              data={recipe}
+              >
                   <div>
                       <h1>{recipe.name}</h1>
                       <ul>
@@ -52,9 +58,9 @@ const ListOfRecipes = (props) => {
                         {recipe.description}
                       </div>
                 </div>
-              )}
+              </Modal>
+              }
             </div>
-          </Modal>
         </div>
           <div className = "deleteButton" id={recipe.id} onClick={deleteRecipe}>
             x
