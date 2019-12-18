@@ -42,12 +42,12 @@ const NewRecipeStep2 = (props) => {
 
     function inputFocus(event){
       if(event.target.name == "ingredientName"){
-        setFocusedInput1(parseInt(event.target.id)); 
+        setFocusedInput1(parseFloat(event.target.id)); 
         setFocusedInput2();
         setRecipeNameIsFocused(false);
       }
       else if(event.target.name == "ingredientAmount"){ 
-        setFocusedInput2(parseInt(event.target.id))
+        setFocusedInput2(parseFloat(event.target.id))
         setFocusedInput1();
         setRecipeNameIsFocused(false);
       }
@@ -138,10 +138,10 @@ const NewRecipeStep2 = (props) => {
     event.persist();
     let parent;
     if(event.target.name === "ingredientName"){
-      parent = parseInt(event.target.parentElement.name);
+      parent = parseFloat(event.target.parentElement.name);
     }
     else{
-      parent = parseInt(event.target.parentElement.parentElement.name);
+      parent = parseFloat(event.target.parentElement.parentElement.name);
     }
     
     
@@ -168,7 +168,7 @@ const NewRecipeStep2 = (props) => {
 		else if(mass.indexOf(currentIngredient.ingredientConvertFrom) > -1 && volume.indexOf(currentIngredient.ingredientConvertTo) > -1) {
 			to === "US-Custom" ? currentIngredient.ingredientConvertTo = "oz" : currentIngredient.ingredientConvertTo = "mg";
 		}
-		currentIngredient.conversionResult = convert(parseInt(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2);
+		currentIngredient.conversionResult = convert(parseFloat(currentIngredient.ingredientAmount)).from(currentIngredient.ingredientConvertFrom).to(currentIngredient.ingredientConvertTo).toFixed(2);
     });
     //focus description
     if(descriptionIsFocused){
